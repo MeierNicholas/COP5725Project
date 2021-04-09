@@ -51,9 +51,15 @@ Query language specification document
 	
 	ip - IP address (NOTE: these have been anonymized so do not resemble actual IP addresses)
 
-	port -- two ports? 
+	proto - protocol
 
-4. Query language
+	portsrc - source port
 
-	** need to specify the structure of queries accepted 
-	
+	portdest - destination port
+
+	srcpacket - number of packets from source 
+
+	destpacket - number of packets at destination 
+
+	for - to specify a length of time of a connection (duration in the logs)
+
