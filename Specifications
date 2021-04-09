@@ -1,0 +1,59 @@
+Query language specification document 
+
+1. Scope:
+	- This query language is modeled after the AIQL query language to facilitate enterprise security investigations. The query language was built with the goal of allowing analysts to specify behaviors relevant to APT attack vectors, namely, multi-step attacks, dependency attacks, and abnormal system behaviors. The language allows for explicit queries pertaining to spacial/temporal constraints, event chaining, aggregate/historical events, and specifications of relationships between events. The rules of the language are defined by a custom grammar programmed with ANTLR4. 
+
+2. Terms and definitions
+
+	Multi-event query- For multi-event queries, there are explicit language constructs for constraints, and relationships between system events. 
+
+	Dependency query- There are chaining constraints that specify temporal relationships. Keywords: forward and backward are used to specify a sequence of events.
+		
+		forward - means the event found at the left-most event pattern occurred the earliest
+
+		backward - means the even found at the left-most event pattern occurred the latest 
+
+	Event pattern - specifies an event pattern rule that consists of the subject/object entities and an operation 
+
+	Global constraint - constraints for all events (i.e., agentid, window, at defined below)
+
+	Event relationship - specifies how multiple events are related 
+
+	Attribute relationship - uses attribute values of event patterns to specify a relationship 
+
+	Time window - specified window of time that temporally narrows down a search
+
+	Attribute constraint - attribute constraints defined by logical operators 
+
+
+3. Symbols and abbreviated terms 
+
+
+	agentid - unique id of the enterprise host
+
+	window - specify length of time window
+
+	at - at a specified date 
+
+- Unique to host log data: 
+
+	proc - processName
+
+	evt - EventID
+
+	user - username specific to unique users of the system; represented as UserName & LogHost in logs 
+
+	procid - process ID
+
+	type - logonType
+
+- Unique to network log data: 
+	
+	ip - IP address (NOTE: these have been anonymized so do not resemble actual IP addresses)
+
+	port -- two ports? 
+
+4. Query language
+
+	** need to specify the structure of queries accepted 
+	
