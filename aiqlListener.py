@@ -62,15 +62,6 @@ class aiqlListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by aiqlParser#datetime.
-    def enterDatetime(self, ctx:aiqlParser.DatetimeContext):
-        pass
-
-    # Exit a parse tree produced by aiqlParser#datetime.
-    def exitDatetime(self, ctx:aiqlParser.DatetimeContext):
-        pass
-
-
     # Enter a parse tree produced by aiqlParser#cstr.
     def enterCstr(self, ctx:aiqlParser.CstrContext):
         pass
@@ -86,15 +77,6 @@ class aiqlListener(ParseTreeListener):
 
     # Exit a parse tree produced by aiqlParser#attr_cstr.
     def exitAttr_cstr(self, ctx:aiqlParser.Attr_cstrContext):
-        pass
-
-
-    # Enter a parse tree produced by aiqlParser#attr.
-    def enterAttr(self, ctx:aiqlParser.AttrContext):
-        pass
-
-    # Exit a parse tree produced by aiqlParser#attr.
-    def exitAttr(self, ctx:aiqlParser.AttrContext):
         pass
 
 
@@ -266,6 +248,24 @@ class aiqlListener(ParseTreeListener):
 
     # Exit a parse tree produced by aiqlParser#rename_id.
     def exitRename_id(self, ctx:aiqlParser.Rename_idContext):
+        pass
+
+
+    # Enter a parse tree produced by aiqlParser#datetime.
+    def enterDatetime(self, ctx:aiqlParser.DatetimeContext):
+        pass
+
+    # Exit a parse tree produced by aiqlParser#datetime.
+    def exitDatetime(self, ctx:aiqlParser.DatetimeContext):
+        pass
+
+
+    # Enter a parse tree produced by aiqlParser#attr.
+    def enterAttr(self, ctx:aiqlParser.AttrContext):
+        pass
+
+    # Exit a parse tree produced by aiqlParser#attr.
+    def exitAttr(self, ctx:aiqlParser.AttrContext):
         pass
 
 

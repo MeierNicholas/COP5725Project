@@ -11,14 +11,12 @@ anomaly 		: (global_cstr)* (a_query);
 // Global constraint 
 global_cstr		: cstr | '(' twind ')';  		
 twind 			: 'from' datetime 'to' datetime;	
-datetime		: INT'/'INT'/'INT | INT; 					 
 
 // Attribute constraints 		
 cstr 			: attr_cstr 
 				| '!'? val
 				| attr 'not'? 'in' '(' val (',' val )* ')';
 attr_cstr		: attr op val; 
-attr 			: STRING; 
 
 // Events & event attributes 
 evt_patt 		: entity op_exp entity evt? ('(' twind ')')?;
@@ -33,7 +31,7 @@ evt_rel			: 'with' rel (',' rel)*;
 
 // Network or host logs 
 entity			: entity_type evt_id? ('[' attr_cstr ']')?;		
-entity_type		: 'net' | 'host';
+entity_type		: 'proc' | 'conn';							// specify process or connection
 
 // Logical expressions 
 op_exp			: op
@@ -44,6 +42,7 @@ op_exp			: op
 // Return values & filters 
 ret 			: 'ret' 'count'? 'distinct'? res (',' res)*;
 res				: evt_id('.'attr)?
+				| attr
 				| agg_func'(' res ')'
 				| 'as' rename_id;
 group_by		: 'group by' res (',' res)*;
@@ -61,9 +60,11 @@ op_edge			: ('->' | '<-') '[' op_exp ']';
 // Anomaly query
 a_query			: evt_patt evt_rel? ret ret_filter?;
 
-// Event ids and naming conventions 
+// Variables
 evt_id 			: INT; 
 rename_id		: STRING;
+datetime		: INT; 		
+attr 			: STRING; 			 
 
 
 // Values, operations, functions 
