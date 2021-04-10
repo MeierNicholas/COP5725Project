@@ -1,6 +1,6 @@
 grammar aiql;
 
-aiql 			: multievent | dependency | anomaly | global_cstr; 
+aiql 			: multievent | dependency | anomaly; 
 
 // Different types of queries 
 multievent 		: (global_cstr)* (m_query)+;
