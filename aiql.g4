@@ -65,9 +65,15 @@ a_query			: evt_patt evt_rel? ret ret_filter?;
 evt_id 			: INT; 
 rename_id		: STRING;
 
+
 // Values, operations, functions 
+INT	: '0' | '0'..'9'+;
+STRING			: 'a'..'z'+ ;
+WS : [ \t\r\n]+ -> skip ;
 val				: STRING
 				| INT
 				| 'null'; 
 op 				: '<' | '>' | '=' | '<=' | '=>'; 
 agg_func 		: 'sum' | 'count' | 'avg'; 
+
+
