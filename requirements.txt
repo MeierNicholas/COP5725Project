@@ -1,0 +1,5 @@
+nltk==3.5
+NOTE: nltk will require the punkt download. This can be accomplished by spawning a python3 terminal, and entering $ import nltk $ nltk.download('punkt')
+antlr==4.9.2
+python==3
+psycopg2==2.8.6
