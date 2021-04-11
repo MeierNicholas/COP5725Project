@@ -19,6 +19,10 @@ class extendedListener(aiqlListener):
 		self.dependencies = list() 
 		self.anomalies = list()
 
+		# flags for query types
+		self.anomalyFlag = 0
+		self.dependencyFlag = 0
+		self.multieventFlag = 0 
 
 	def exitAiql(self, ctx):
 
@@ -29,6 +33,13 @@ class extendedListener(aiqlListener):
 		self.FROM = "FROM " 
 		self.WHERE = " WHERE "
 
+
+		# query to network or host logs
+		if (self.anomalyFlag == 1):
+			self.FROM += "netlogs"
+		else: 
+			self.FROM += "hostlogs"
+
 		print(self.global_constraints)
 
 		self.sfw = self.SELECT + self.FROM + self.WHERE
@@ -36,30 +47,20 @@ class extendedListener(aiqlListener):
 		self.queries.append(self.sfw)
 
 		print(self.queries)
+		print(self.dependencyFlag)
 
 
 	# MULTIEVENT QUERY INSTANCE 
 	def enterMultievent(self, ctx):
 		self.multieventFlag = 1
-   
-	def exitMultievent(self, ctx):
-		self.multieventFlag = 0
 		
 	# DEPENDENCY QUERY INSTANCE 
 	def enterDependency(self, ctx):
 		self.dependencyFlag = 1
 	
-	def exitDependency(self, ctx):
-		self.dependencyFlag = 0
-
-
 	# ANOMALY QUERY INSTANCE
 	def enterAnomaly(self, ctx):
 		self.anomalyFlag = 1
-	
-	def exitAnomaly(self, ctx):
-		self.anomalyFlag = 0 
-
 
 	# GLOBAL CONSTRAINT INSTANCE
 	def enterGlobal_cstr(self, ctx):
