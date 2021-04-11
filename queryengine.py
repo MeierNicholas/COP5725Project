@@ -23,6 +23,7 @@ class extendedListener(aiqlListener):
 		self.anomalyFlag = 0
 		self.dependencyFlag = 0
 		self.multieventFlag = 0 
+		self.attr_cstrFlag = 0
 
 	def exitAiql(self, ctx):
 
