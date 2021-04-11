@@ -302,7 +302,7 @@ M = dict()
 pruningScores = dict() 
 executed = list()
 # main scheduler 
-def queryScheduler(queries):
+def queryScheduler(queries, flag):
 	
 	for query in queries:
 		# caluclate pruning score 
@@ -319,7 +319,7 @@ def queryScheduler(queries):
 		executed.append(query)
 
 	print("Query returned " + str(len(resultSet)) + " unique log events")
-	printResults(resultSet)
+	printResults(resultSet, flag)
 
 	return sortedScores
 
@@ -354,10 +354,13 @@ def executeQuery(queryString):
 	for i in records:
 		resultSet.add(i)
 
-def printResults(records):
+def printResults(records, flag):
 	x = PrettyTable()
 
-	x.field_names = ["ID", "UserName", "EventID", "LogHost", "LogonID", "DomainName", "ParentProcessName", "ParentProcessID", "ProcessName", "Time",
+	if flag==1:
+		x.field_names = ["ID", "Time", "Duration", "SrcDevice", "DstDevice", "Protocol", "SrcPort", "DstPort", "SrcPackets", "DstPackets", "SrcBytes", "DstBytes"]
+	else:
+		x.field_names = ["ID", "UserName", "EventID", "LogHost", "LogonID", "DomainName", "ParentProcessName", "ParentProcessID", "ProcessName", "Time",
 				 "ProcessID", "LogonTypeDescription", "LogonType", "Source", "AuthenticationPackage", "Destination", "SubjectUserName",
 				 "SubjectLogonID", "SubjectDomainName", "Status"]
 
@@ -389,14 +392,14 @@ def main():
 	print(printer.queries)
 
 	# Schedule & Run generated queries 
-	queryScheduler(printer.queries)	
+	queryScheduler(printer.queries, printer.anomalyFlag)	
 
 	# testQueries = {"SELECT * FROM hostlogs WHERE processname='dllhost.exe';", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792;", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792 AND processid='0x1110';"}
 	# print("Initial Query Order: ", testQueries)
 	# print("Optimized Query Order: ", queryScheduler(testQueries))
 
 #	records = executeQuery()
-#	printResults(records)
+#	printResults(records, printer.anomalyFlag)
 
 if __name__ == '__main__':
 	main()
