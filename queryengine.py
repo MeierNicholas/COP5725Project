@@ -58,8 +58,6 @@ class extendedListener(aiqlListener):
 
 		self.queries.append(self.sfw)
 
-		print(self.queries)
-
 	# MULTIEVENT QUERY INSTANCE 
 	def enterMultievent(self, ctx):
 		self.multieventFlag = 1
@@ -84,6 +82,7 @@ class extendedListener(aiqlListener):
 	def enterTwind(self, ctx):
 		self.twindFlag = 1 
 		self.twind = list()
+		self.twind.append("TIMEWINDOW")
 
 	def exitTwind(self, ctx):
 		if self.global_cstrFlag == 1:
@@ -386,7 +385,10 @@ def main():
 	walker = ParseTreeWalker()
 	walker.walk(printer, tree)
 
-	#print(printer.global_constraints)
+	print(printer.queries)
+
+	# Schedule & Run generated queries 
+	queryScheduler(printer.queries)	
 
 	# testQueries = {"SELECT * FROM hostlogs WHERE processname='dllhost.exe';", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792;", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792 AND processid='0x1110';"}
 	# print("Initial Query Order: ", testQueries)
