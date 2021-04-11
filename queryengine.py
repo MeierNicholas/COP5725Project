@@ -15,6 +15,27 @@ class extendedListener(aiqlListener):
 
 	def enterAiql(self, ctx): 
 		self.global_constraints = list()
+		self.multievents = list()
+		self.dependencies = list() 
+		self.anomalies = list()
+
+
+	def exitAiql(self, ctx):
+
+		self.queries = list() 	# list of generated queries 
+
+		# CONVERT EVERYTHING TO SQL 
+		self.SELECT = "SELECT * " 
+		self.FROM = "FROM " 
+		self.WHERE = " WHERE "
+
+		print(self.global_constraints)
+
+		self.sfw = self.SELECT + self.FROM + self.WHERE
+	
+		self.queries.append(self.sfw)
+
+		print(self.queries)
 
 
 	# MULTIEVENT QUERY INSTANCE 
@@ -360,7 +381,7 @@ def main():
 	walker = ParseTreeWalker()
 	walker.walk(printer, tree)
 
-	print(printer.global_constraints)
+	#print(printer.global_constraints)
 
 	# testQueries = {"SELECT * FROM hostlogs WHERE processname='dllhost.exe';", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792;", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792 AND processid='0x1110';"}
 	# print("Initial Query Order: ", testQueries)
