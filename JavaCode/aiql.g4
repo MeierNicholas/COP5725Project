@@ -34,7 +34,7 @@ entity			: entity_type evt_id? ('[' attr_cstr ']')?;
 entity_type		: 'proc' | 'conn';							// specify process or connection
 
 // Logical expressions 
-op_exp			: op
+op_exp			: keyword
 				| '!' op_exp
 				| op_exp ( '&&' | '||' ) op_exp
 				| '(' op_exp ')';
@@ -61,7 +61,7 @@ op_edge			: ('->' | '<-') '[' op_exp ']';
 a_query			: evt_patt evt_rel? ret ret_filter?;
 
 // Variables
-evt_id 			: INT; 
+evt_id 			: STRING (INT)?; 
 rename_id		: STRING;
 datetime		: INT; 		
 attr 			: STRING; 			 
@@ -76,5 +76,6 @@ val				: STRING
 				| 'null'; 
 op 				: '<' | '>' | '=' | '<=' | '=>'; 
 agg_func 		: 'sum' | 'count' | 'avg'; 
+keyword 		: 'execute' | 'fail' | 'priv' | 'explicit' | 'shutdown'; 
 
 

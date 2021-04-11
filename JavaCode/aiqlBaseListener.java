@@ -394,6 +394,18 @@ public class aiqlBaseListener implements aiqlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAgg_func(aiqlParser.Agg_funcContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterKeyword(aiqlParser.KeywordContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitKeyword(aiqlParser.KeywordContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

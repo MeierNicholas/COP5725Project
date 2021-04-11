@@ -326,4 +326,14 @@ public interface aiqlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAgg_func(aiqlParser.Agg_funcContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link aiqlParser#keyword}.
+	 * @param ctx the parse tree
+	 */
+	void enterKeyword(aiqlParser.KeywordContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link aiqlParser#keyword}.
+	 * @param ctx the parse tree
+	 */
+	void exitKeyword(aiqlParser.KeywordContext ctx);
 }

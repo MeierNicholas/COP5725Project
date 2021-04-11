@@ -57,9 +57,9 @@ Query language specification document
 
 	portdest - destination port
 
-	srcpacket - number of packets from source 
+	srcpacket - number of packets sent from source 
 
-	destpacket - number of packets at destination 
+	destpacket - number of packets recevied at destination 
 
 	for - to specify a length of time of a connection (duration in the logs)
 
@@ -76,6 +76,10 @@ Query language specification document
 	4. 4688 -- process start -> execute
 
 	5. 1100 -- event logging service was shut down -> shutdown 
+
+	- The following keyword is to be used for network logs only:
+
+	6. connect
 
 
 
