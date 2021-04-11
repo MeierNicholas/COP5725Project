@@ -296,5 +296,14 @@ class aiqlListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by aiqlParser#keyword.
+    def enterKeyword(self, ctx:aiqlParser.KeywordContext):
+        pass
+
+    # Exit a parse tree produced by aiqlParser#keyword.
+    def exitKeyword(self, ctx:aiqlParser.KeywordContext):
+        pass
+
+
 
 del aiqlParser
