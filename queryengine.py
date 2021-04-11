@@ -40,6 +40,7 @@ class extendedListener(aiqlListener):
 		else: 
 			self.FROM += "hostlogs"
 
+		# Add global constraints to WHERE clause 
 		print(self.global_constraints)
 		if len(self.global_constraints) != 0:
 			size = range(len(self.global_constraints))
@@ -49,13 +50,15 @@ class extendedListener(aiqlListener):
 				if i < len(self.global_constraints)-1:
 					self.WHERE += " AND "
 
-		self.sfw = self.SELECT + self.FROM + self.WHERE
+			self.sfw = self.SELECT + self.FROM + self.WHERE
 	
+		else:
+			self.sfw = self.SELECT + self.FROM 
+
+
 		self.queries.append(self.sfw)
 
 		print(self.queries)
-		print(self.dependencyFlag)
-
 
 	# MULTIEVENT QUERY INSTANCE 
 	def enterMultievent(self, ctx):
