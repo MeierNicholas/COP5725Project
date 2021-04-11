@@ -76,7 +76,6 @@ class extendedListener(aiqlListener):
 			self.global_constraints.append(self.attr_cstr)
 		self.attr_cstrFlag = 0
 
-
 	def enterEvt_patt(self, ctx):
 		pass
 
@@ -229,6 +228,12 @@ class extendedListener(aiqlListener):
 		pass
 
 	def exitAgg_func(self, ctx):
+		pass
+
+	def enterKeyword(self, ctx):
+		pass
+
+	def exitKeyword(self, ctx):
 		pass
 
 
