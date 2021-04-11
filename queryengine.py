@@ -51,8 +51,11 @@ class extendedListener(aiqlListener):
 	# TIME WINDOW
 	def enterTwind(self, ctx):
 		self.twindFlag = 1 
+		self.twind = list()
 
 	def exitTwind(self, ctx):
+		if self.global_cstrFlag == 1:
+			self.global_constraints.append(self.twind)
 		self.twindFlag = 0
 
 
@@ -193,7 +196,8 @@ class extendedListener(aiqlListener):
 
 
 	def enterDatetime(self, ctx):
-		pass
+		if self.twindFlag == 1:
+			self.twind.append(ctx.getText())
 
 	def exitDatetime(self, ctx):
 		pass
