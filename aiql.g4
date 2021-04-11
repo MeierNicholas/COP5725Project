@@ -5,7 +5,7 @@ aiql 			: multievent | dependency | anomaly;
 // Different types of queries 
 multievent 		: (global_cstr)* (m_query)+;
 dependency 		: (global_cstr)* (d_query);
-anomaly 		: (global_cstr)* (a_query); 
+anomaly 		: 'anomaly' (global_cstr)*; 
 
 
 // Global constraint 
@@ -57,8 +57,6 @@ m_query 		: evt_patt + evt_rel? ret ret_filter?;
 d_query 		: (('forward' | 'backward') ':')? (entity op_edge)+ entity ret ret_filter?;
 op_edge			: ('->' | '<-') '[' op_exp ']';
 
-// Anomaly query
-a_query			: evt_patt evt_rel? ret ret_filter?;
 
 // Variables
 evt_id 			: STRING (INT)?; 

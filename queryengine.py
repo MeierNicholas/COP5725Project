@@ -197,12 +197,6 @@ class extendedListener(aiqlListener):
 	def exitOp_edge(self, ctx):
 		pass
 
-	def enterA_query(self, ctx):
-		pass
-
-	def exitA_query(self, ctx):
-		pass
-
 	def enterEvt_id(self, ctx):
 		pass
 

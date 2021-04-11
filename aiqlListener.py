@@ -224,15 +224,6 @@ class aiqlListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by aiqlParser#a_query.
-    def enterA_query(self, ctx:aiqlParser.A_queryContext):
-        pass
-
-    # Exit a parse tree produced by aiqlParser#a_query.
-    def exitA_query(self, ctx:aiqlParser.A_queryContext):
-        pass
-
-
     # Enter a parse tree produced by aiqlParser#evt_id.
     def enterEvt_id(self, ctx:aiqlParser.Evt_idContext):
         pass
