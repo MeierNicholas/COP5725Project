@@ -10,6 +10,35 @@
 import collections 
 import operator
 import nltk
+import psycopg2
+from prettytable import PrettyTable
+
+resultSet = set()
+
+def printResults(records):
+	x = PrettyTable()
+
+	x.field_names = ["ID", "UserName", "EventID", "LogHost", "LogonID", "DomainName", "ParentProcessName", "ParentProcessID", "ProcessName", "Time",
+				 "ProcessID", "LogonTypeDescription", "LogonType", "Source", "AuthenticationPackage", "Destination", "SubjectUserName",
+				 "SubjectLogonID", "SubjectDomainName", "Status"]
+
+	for i in records:
+		i = list(i)
+		x.add_row(i)
+
+	print(x)
+
+def executeQuery(queryString):
+	conn = psycopg2.connect("dbname=projectdb user=postgres password=leoeatsbroccoli")
+	cur = conn.cursor()
+
+	#needs to execute whatever query argument was passed to the function
+	cur.execute(queryString)
+
+	records = cur.fetchall()
+
+	for i in records:
+		resultSet.add(i)
 
 # pruning score function computed for every event based on the number of constraints specified 
 def pruningScore(query):
@@ -45,15 +74,21 @@ def queryScheduler(queries):
 	# TO BE INTEGRATED WITH THE QUERY ENGINE CODE 
 	for query in sortedScores:
 		# change executeQuery function in QE to take in a query and return the results 
-		M[query] = executeQuery(query)					# map M that stores the mapping from the event pattern ID to the set of event ID tuples that its execution results belong to. 
+		# M[query] = executeQuery(str(query))					# map M that stores the mapping from the event pattern ID to the set of event ID tuples that its execution results belong to. 
+
+		executeQuery(query)
+
 		executed.append(query)
 
+	print("Query returned " + str(len(resultSet)) + " unique log events")
+	printResults(resultSet)
 
 	return sortedScores
 
 def main():
-	testQueries = {"SELECT test FROM table WHERE a = 5 AND b = 7", "SELECT test2 FROM table WHERE a = 3", "SELECT test3 FROM table WHERE a = 1 AND b = 9 AND c = 12"}
-	print(queryScheduler(testQueries))
+	testQueries = {"SELECT * FROM hostlogs WHERE processname='dllhost.exe';", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792;", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792 AND processid='0x1110';"}
+	print("Initial Query Order: ", testQueries)
+	print("Optimized Query Order: ", queryScheduler(testQueries))
 
 if __name__ == '__main__':
 	main()

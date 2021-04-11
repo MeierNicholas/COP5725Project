@@ -1,4 +1,7 @@
 import psycopg2
+import collections 
+import operator
+import nltk
 from prettytable import PrettyTable
 from antlr4 import *
 import antlr4
@@ -227,6 +230,52 @@ class extendedListener(aiqlListener):
 
 
 tokenList = []
+resultSet = set()
+
+def pruningScore(query):
+	score = 0
+	# based on the number of constraints specified 
+	# we determine this to be the constraints after the WHERE in a SFW query 
+	start = 0
+	constraints = '' 
+	queryTokens = nltk.word_tokenize(query)
+
+	for word in queryTokens:
+		if str(word) == 'WHERE':
+			start = 1
+			score += 1				# at least 1 constraint found
+			continue
+		if start == 1:
+			constraints += str(word) + " "
+			if str(word) == "AND" or str(word) == "OR":		# additional constraints
+				score += 1
+	return score 
+
+
+M = dict() 
+pruningScores = dict() 
+executed = list()
+# main scheduler 
+def queryScheduler(queries):
+	
+	for query in queries:
+		# caluclate pruning score 
+		pruningScores[query] = pruningScore(query)
+	sortedScores = dict(sorted(pruningScores.items(), key=lambda item: item[1], reverse=True)) 		# Sort queries based on scores
+
+	# TO BE INTEGRATED WITH THE QUERY ENGINE CODE 
+	for query in sortedScores:
+		# change executeQuery function in QE to take in a query and return the results 
+		# M[query] = executeQuery(str(query))					# map M that stores the mapping from the event pattern ID to the set of event ID tuples that its execution results belong to. 
+
+		executeQuery(query)
+
+		executed.append(query)
+
+	print("Query returned " + str(len(resultSet)) + " unique log events")
+	printResults(resultSet)
+
+	return sortedScores
 
 def generateQuery(tokens):
 	select = "SELECT * "
@@ -247,15 +296,17 @@ def generateQuery(tokens):
 	return query
 
 
-def executeQuery():
+def executeQuery(queryString):
 	conn = psycopg2.connect("dbname=projectdb user=postgres password=leoeatsbroccoli")
 	cur = conn.cursor()
 
 	#needs to execute whatever query argument was passed to the function
-	cur.execute("SELECT * FROM hostlogs WHERE processname='dllhost.exe'")
+	cur.execute(queryString)
 
 	records = cur.fetchall()
-	return records
+
+	for i in records:
+		resultSet.add(i)
 
 def printResults(records):
 	x = PrettyTable()
@@ -290,6 +341,10 @@ def main():
 	walker.walk(printer, tree)
 
 	print(printer.global_constraints)
+
+	# testQueries = {"SELECT * FROM hostlogs WHERE processname='dllhost.exe';", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792;", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792 AND processid='0x1110';"}
+	# print("Initial Query Order: ", testQueries)
+	# print("Optimized Query Order: ", queryScheduler(testQueries))
 
 #	records = executeQuery()
 #	printResults(records)
