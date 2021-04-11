@@ -24,6 +24,7 @@ class extendedListener(aiqlListener):
 		self.dependencyFlag = 0
 		self.multieventFlag = 0 
 		self.attr_cstrFlag = 0
+		self.twindFlag = 0
 
 	def exitAiql(self, ctx):
 
@@ -44,15 +45,27 @@ class extendedListener(aiqlListener):
 		# Add global constraints to WHERE clause 
 		print(self.global_constraints)
 		if len(self.global_constraints) != 0:
+			
 			size = range(len(self.global_constraints))
 			for i in size:
-				for word in self.global_constraints[i]:
-					self.WHERE += word + " "
-				if i < len(self.global_constraints)-1:
-					self.WHERE += " AND "
+				if self.global_constraints[i][0] == 'TIMEWINDOW':
+					twindstr = "time BETWEEN "
+					twindstr += self.global_constraints[i][1]
+					twindstr += " AND "
+					twindstr += self.global_constraints[i][2]
+					self.WHERE += twindstr
+
+					if i < len(self.global_constraints)-1:
+						self.WHERE += " AND "
+						
+				else: 
+					for word in self.global_constraints[i]:
+						self.WHERE += word + " "
+					if i < len(self.global_constraints)-1:
+						self.WHERE += " AND "
 
 			self.sfw = self.SELECT + self.FROM + self.WHERE
-	
+
 		else:
 			self.sfw = self.SELECT + self.FROM 
 
