@@ -5,7 +5,7 @@ aiql 			: multievent | dependency | anomaly;
 // Different types of queries 
 multievent 		: (global_cstr)* (m_query)+;
 dependency 		: (global_cstr)* (d_query);
-anomaly 		: 'anomaly' (global_cstr)*; 
+anomaly 		: 'anomaly' (global_cstr)+; 
 
 
 // Global constraint 

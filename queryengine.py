@@ -41,6 +41,13 @@ class extendedListener(aiqlListener):
 			self.FROM += "hostlogs"
 
 		print(self.global_constraints)
+		if len(self.global_constraints) != 0:
+			size = range(len(self.global_constraints))
+			for i in size:
+				for word in self.global_constraints[i]:
+					self.WHERE += word + " "
+				if i < len(self.global_constraints)-1:
+					self.WHERE += " AND "
 
 		self.sfw = self.SELECT + self.FROM + self.WHERE
 	
