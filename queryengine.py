@@ -231,10 +231,21 @@ class extendedListener(aiqlListener):
 		pass
 
 	def enterKeyword(self, ctx):
-		pass
+		self.keyword = ctx.getText()
+		self.eventID = 0
 
-	def exitKeyword(self, ctx):
-		pass
+		if (str(self.keyword)) == 'fail': 
+			self.eventID = 4625
+		elif (str(self.keyword)) == 'execute': 
+			self.eventID = 4688
+		elif (str(self.keyword)) == 'explicit': 
+			self.eventID = 4648
+		elif (str(self.keyword)) == 'priv': 
+			self.eventID = 4672
+		elif (str(self.keyword)) == 'shutdown': 
+			self.eventID = 1100
+		elif (str(self.keyword)) == 'connect': 
+			self.eventID = 1
 
 
 
