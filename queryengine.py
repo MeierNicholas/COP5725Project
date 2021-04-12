@@ -27,6 +27,9 @@ class extendedListener(aiqlListener):
 		self.twindFlag = 0
 		self.forwardDependency = 0
 		self.backwardDependency = 0
+		self.opEdgeFwd = 0
+		self.opEdgeBwd = 0 
+		self.retStatement = 0
 
 	def exitAiql(self, ctx):
 
@@ -176,15 +179,11 @@ class extendedListener(aiqlListener):
 	def enterOp_exp(self, ctx):
 		pass
 
-	def exitOp_exp(self, ctx):
-		pass
-
-
 	def enterRet(self, ctx):
-		pass
+		self.retStatement = 1
 
 	def exitRet(self, ctx):
-		pass
+		self.retStatement = 0
 
 	def enterRes(self, ctx):
 		pass
@@ -221,7 +220,10 @@ class extendedListener(aiqlListener):
 		pass
 
 	def enterOp_edge(self, ctx):
-		pass
+		if ctx.getText()[0:2] == '->': 
+			opEdgeFwd = 1
+		elif ctx.getText()[0:2] -- '<-': 
+			opEdgeBwd = 1
 
 	def exitOp_edge(self, ctx):
 		pass
@@ -403,7 +405,7 @@ def main():
 	stream = antlr4.CommonTokenStream(lexer)
 	parser = aiqlParser(stream)
 	tree = parser.aiql()
-	printNodes(tree)
+	#printNodes(tree)
 	printer = extendedListener()	
 	walker = ParseTreeWalker()
 	walker.walk(printer, tree)
