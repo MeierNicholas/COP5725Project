@@ -23,13 +23,20 @@ class extendedListener(aiqlListener):
 		self.anomalyFlag = 0
 		self.dependencyFlag = 0
 		self.multieventFlag = 0 
+
+		# flag for constraints 
 		self.attr_cstrFlag = 0
 		self.twindFlag = 0
+
+		# Dependency flags 
 		self.forwardDependency = 0
 		self.backwardDependency = 0
 		self.opEdgeFwd = 0
 		self.opEdgeBwd = 0 
+
+		# Flags for return statement
 		self.retStatement = 0
+		self.outputResult = 0 		
 
 	def exitAiql(self, ctx):
 
@@ -186,7 +193,10 @@ class extendedListener(aiqlListener):
 		self.retStatement = 0
 
 	def enterRes(self, ctx):
-		pass
+		if self.retStatement == 1:
+			self.outputResult = 1
+			# NOTE: The return statement can be a event, attribute, aggregate function of an attribute, or use HAVING 
+			# the return attribute can also be renamed using "AS <newname>"
 
 	def exitRes(self, ctx):
 		pass
