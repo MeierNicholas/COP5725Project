@@ -14,6 +14,7 @@ twind 			: 'from' datetime 'to' datetime;
 
 // Attribute constraints 		
 cstr 			: attr_cstr 
+				| filename
 				| '!'? val
 				| attr 'not'? 'in' '(' val (',' val )* ')';
 attr_cstr		: attr op val; 
@@ -51,7 +52,7 @@ ret_filter			: 'having' (res | cstr)
 				| 'top' INT; 
 
 // Multievent query 
-m_query 		: evt_patt + evt_rel? ret ret_filter?;
+m_query 		: evt_patt+ evt_rel? ret ret_filter?;
 
 // Dependency query 
 d_query 		: (('forward' | 'backward') ':')? (entity op_edge)+ entity ret ret_filter?;
@@ -59,7 +60,7 @@ op_edge			: ('->' | '<-') '[' op_exp ']';
 
 
 // Variables
-evt_id 			: STRING (INT)?; 
+evt_id 			: (STRING (INT)?) | filename; 
 rename_id		: STRING;
 datetime		: INT; 		
 attr 			: STRING; 			 
@@ -68,6 +69,7 @@ attr 			: STRING;
 // Values, operations, functions 
 INT	: '0' | '0'..'9'+;
 STRING			: 'a'..'z'+ ;
+filename 		: STRING ('.' STRING)?;
 WS : [ \t\r\n]+ -> skip ;
 val				: STRING
 				| INT
@@ -75,5 +77,3 @@ val				: STRING
 op 				: '<' | '>' | '=' | '<=' | '=>'; 
 agg_func 		: 'sum' | 'count' | 'avg'; 
 keyword 		: 'execute' | 'fail' | 'priv' | 'explicit' | 'shutdown' | 'connect'; 
-
-
