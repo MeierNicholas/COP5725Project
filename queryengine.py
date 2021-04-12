@@ -36,7 +36,9 @@ class extendedListener(aiqlListener):
 
 		# Flags for return statement
 		self.retStatement = 0
-		self.outputResult = 0 		
+		self.outputResult = 0 	
+		self.distinctResults = 0	
+		self.countResults = 0
 
 	def exitAiql(self, ctx):
 
@@ -188,8 +190,16 @@ class extendedListener(aiqlListener):
 	def enterOp_exp(self, ctx):
 		pass
 
+	# Handling return statements 
 	def enterRet(self, ctx):
 		self.retStatement = 1
+
+		# Accounting for distinct results
+		if "distinct" in ctx.getText():
+			self.distinctResults = 1
+
+		if "count" in ctx.getText():
+			self.countResults = 1
 
 	def exitRet(self, ctx):
 		self.retStatement = 0

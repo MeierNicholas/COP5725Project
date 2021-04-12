@@ -28,12 +28,13 @@ Query language specification document
 
 3. Symbols and abbreviated terms 
 
-
 	logonid - unique id of the enterprise host
 
 	window - specify length of time window
 
 	at - at a specified time 
+
+	datetime - epoch time of an events
 
 - Unique to host log data: 
 
