@@ -25,6 +25,8 @@ class extendedListener(aiqlListener):
 		self.multieventFlag = 0 
 		self.attr_cstrFlag = 0
 		self.twindFlag = 0
+		self.forwardDependency = 0
+		self.backwardDependency = 0
 
 	def exitAiql(self, ctx):
 
@@ -209,7 +211,11 @@ class extendedListener(aiqlListener):
 		pass
 
 	def enterD_query(self, ctx):
-		pass
+		direction = ctx.getText()[0:7]
+		if direction == 'forward':
+			forwardDependency = 1
+		else:
+			backwardDependency = 1
 
 	def exitD_query(self, ctx):
 		pass
@@ -405,7 +411,7 @@ def main():
 	print(printer.queries)
 
 	# Schedule & Run generated queries 
-	queryScheduler(printer.queries, printer.anomalyFlag)	
+	#queryScheduler(printer.queries, printer.anomalyFlag)	
 
 	# testQueries = {"SELECT * FROM hostlogs WHERE processname='dllhost.exe';", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792;", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792 AND processid='0x1110';"}
 	# print("Initial Query Order: ", testQueries)
