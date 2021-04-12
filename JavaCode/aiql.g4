@@ -14,10 +14,9 @@ twind 			: 'from' datetime 'to' datetime;
 
 // Attribute constraints 		
 cstr 			: attr_cstr 
-				| filename
 				| '!'? val
 				| attr 'not'? 'in' '(' val (',' val )* ')';
-attr_cstr		: attr op val; 
+attr_cstr		: attr op val | filename; 
 
 // Events & event attributes 
 evt_patt 		: entity op_exp entity evt? ('(' twind ')')?;
