@@ -54,6 +54,8 @@ class extendedListener(aiqlListener):
 		else: 
 			self.FROM += "hostlogs"
 
+		print(self.dependencies)
+
 		# Add global constraints to WHERE clause 
 		print(self.global_constraints)
 		if len(self.global_constraints) != 0:
@@ -303,6 +305,9 @@ class extendedListener(aiqlListener):
 			self.eventID = 1100
 		elif (str(self.keyword)) == 'connect': 
 			self.eventID = 1
+
+		if self.dependencyFlag == 1:
+			self.dependencies.append("EventID = " + str(self.eventID))
 
 
 
