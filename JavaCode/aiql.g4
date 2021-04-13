@@ -14,9 +14,8 @@ twind 			: 'from' datetime 'to' datetime;
 
 // Attribute constraints 		
 cstr 			: attr_cstr 
-				| '!'? val
 				| attr 'not'? 'in' '(' val (',' val )* ')';
-attr_cstr		: attr op val | filename; 
+attr_cstr		: attr op val; 
 
 // Events & event attributes 
 evt_patt 		: entity op_exp entity evt? ('(' twind ')')?;
@@ -31,7 +30,7 @@ evt_rel			: 'with' rel (',' rel)*;
 
 // Network or host logs 
 entity			: entity_type evt_id? ('[' attr_cstr ']')?;		
-entity_type		: 'proc' | 'conn';							// specify process or connection
+entity_type		: STRING;							// specify process or connection
 
 // Logical expressions 
 op_exp			: keyword
@@ -70,7 +69,7 @@ INT	: '0' | '0'..'9'+;
 STRING			: 'a'..'z'+ ;
 filename 		: STRING ('.' STRING)?;
 WS : [ \t\r\n]+ -> skip ;
-val				: STRING
+val				: STRING(INT)?
 				| INT
 				| 'null'; 
 op 				: '<' | '>' | '=' | '<=' | '=>'; 

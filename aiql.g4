@@ -14,7 +14,6 @@ twind 			: 'from' datetime 'to' datetime;
 
 // Attribute constraints 		
 cstr 			: attr_cstr 
-				| '!'? val
 				| attr 'not'? 'in' '(' val (',' val )* ')';
 attr_cstr		: attr op val; 
 
