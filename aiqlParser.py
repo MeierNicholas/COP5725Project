@@ -158,7 +158,7 @@ def serializedATN():
         buf.write("\2\2\2\u013e\u0140\5:\36\2\u013f\u013a\3\2\2\2\u013f\u013e")
         buf.write("\3\2\2\2\u0140\63\3\2\2\2\u0141\u0142\7\63\2\2\u0142\65")
         buf.write("\3\2\2\2\u0143\u0144\7\62\2\2\u0144\67\3\2\2\2\u0145\u0146")
-        buf.write("\7\63\2\2\u01469\3\2\2\2\u0147\u014a\7\63\2\2\u0148\u0149")
+        buf.write("\5<\37\2\u01469\3\2\2\2\u0147\u014a\7\63\2\2\u0148\u0149")
         buf.write("\7\17\2\2\u0149\u014b\7\63\2\2\u014a\u0148\3\2\2\2\u014a")
         buf.write("\u014b\3\2\2\2\u014b;\3\2\2\2\u014c\u015a\7\63\2\2\u014d")
         buf.write("\u015a\7\62\2\2\u014e\u0150\7\63\2\2\u014f\u014e\3\2\2")
@@ -2241,8 +2241,9 @@ class aiqlParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def STRING(self):
-            return self.getToken(aiqlParser.STRING, 0)
+        def val(self):
+            return self.getTypedRuleContext(aiqlParser.ValContext,0)
+
 
         def getRuleIndex(self):
             return aiqlParser.RULE_attr
@@ -2265,7 +2266,7 @@ class aiqlParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 323
-            self.match(aiqlParser.STRING)
+            self.val()
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)

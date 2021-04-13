@@ -62,7 +62,7 @@ op_edge			: ('->' | '<-') '[' op_exp ']';
 evt_id 			: (STRING (INT)?) | filename; 
 rename_id		: STRING;
 datetime		: INT; 		
-attr 			: STRING; 			 
+attr 			: val; 			 
 
 
 // Values, operations, functions 
