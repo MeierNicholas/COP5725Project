@@ -232,6 +232,7 @@ class extendedListener(aiqlListener):
 		pass
 
 	def enterD_query(self, ctx):
+		print(ctx.getText())
 		direction = ctx.getText()[0:7]
 		if direction == 'forward':
 			forwardDependency = 1
