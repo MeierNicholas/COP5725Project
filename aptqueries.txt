@@ -1,0 +1,24 @@
+Multievent Query
+----------------
+
+username = "User019287" //unique ID of the enterprise host
+(from 0 to 5334792) //time window
+proc * start dllhost.exe as evt1
+proc * start dllhost.exe as evt2
+evt1 before evt2
+
+
+
+Dependency Query
+----------------
+
+(from 0 to 5334792) //time window
+forward: priv -> shutdown
+
+
+
+Anomaly Query
+-------------
+anomaly protocol=17
+(from 118781 to 118965)
+conn connect 

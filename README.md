@@ -39,7 +39,7 @@ This project requires several Python libraries in order to function properly. Th
 - For this project, we took advantage of the open source datasets provided by Los Alamos National Laboratory. Specifically, we used the Unified Host and Network Data Set. This dataset is a subset of network and computer events collected from within the LANL enterprise system over the course of 90 days.
 - Host Data
 	- The host dataset includes logs collected from Windows machines from within the enterprise network. These logs include the following possible Event IDs: 4768, 4769, 4770, 4774, 4776, 4624, 4625, 4634, 4647, 4648, 4672, 4800, 4801, 4802, 4803, 4688, 4689, 4608, 4609, 1100. 
-	- Records will consist of the following possible attributes per event: Time, EventID, LogHost, LogonType, LogonTypeDescription, UserName, DomainName, LogonID, SubjectUserName, SubjectDomainName, SubjectLogonID, Status, Source, ServiceName, Destination, AuthenticationPackage, FailureReason, ProcessName, ProcessID, ParentProcessName, ParentProcessID. The attributes present in each record depends on the EventID
+	- Records will consist of the following possible attributes per event: Time, EventID, LogHost, LogonType, LogonTypeDescription, UserName, DomainName, LogonID, SubjectUserName, SubjectDomainName, SubjectLogonID, Status, Source, ServiceName, Destination, AuthenticationPackage, FailureReason, ProcessName, ProcessID, ParentProcessName, ParentProcessID. The attributes present in each record depends on the EventID.
 
 - Network Data
 	- The network events represent bi-directional events when possible. They are in the form of: {Time, Duration, SrcDevice, DstDevice, Protocol, SrcPort, DstPort, SrcPackets, DstPackets, SrcBytes, DstBytes}.
