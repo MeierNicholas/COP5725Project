@@ -12,7 +12,7 @@ else:
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\64")
-        buf.write("\u0162\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write("\u015b\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23\t\23")
         buf.write("\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31")
@@ -45,12 +45,11 @@ def serializedATN():
         buf.write("\30\3\30\3\30\5\30\u0134\n\30\3\31\3\31\3\31\3\31\3\31")
         buf.write("\3\32\3\32\5\32\u013d\n\32\3\32\5\32\u0140\n\32\3\33\3")
         buf.write("\33\3\34\3\34\3\35\3\35\3\36\3\36\3\36\5\36\u014b\n\36")
-        buf.write("\3\37\3\37\3\37\6\37\u0150\n\37\r\37\16\37\u0151\3\37")
-        buf.write("\6\37\u0155\n\37\r\37\16\37\u0156\3\37\5\37\u015a\n\37")
-        buf.write("\3 \3 \3!\3!\3\"\3\"\3\"\2\3\"#\2\4\6\b\n\f\16\20\22\24")
+        buf.write("\3\37\3\37\5\37\u014f\n\37\3\37\3\37\5\37\u0153\n\37\3")
+        buf.write(" \3 \3!\3!\3\"\3\"\3\"\2\3\"#\2\4\6\b\n\f\16\20\22\24")
         buf.write("\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@B\2\n\3\2\20")
         buf.write("\22\3\2\24\25\3\2\34\35\3\2\37 \3\2\"#\3\2%)\4\2\27\27")
-        buf.write("*+\3\2,\61\2\u0173\2G\3\2\2\2\4L\3\2\2\2\6W\3\2\2\2\b")
+        buf.write("*+\3\2,\61\2\u016a\2G\3\2\2\2\4L\3\2\2\2\6W\3\2\2\2\b")
         buf.write("\\\3\2\2\2\ng\3\2\2\2\fi\3\2\2\2\16\u0083\3\2\2\2\20\u008a")
         buf.write("\3\2\2\2\22\u008c\3\2\2\2\24\u0098\3\2\2\2\26\u00a2\3")
         buf.write("\2\2\2\30\u00b0\3\2\2\2\32\u00b2\3\2\2\2\34\u00b6\3\2")
@@ -58,8 +57,8 @@ def serializedATN():
         buf.write("\u00dd\3\2\2\2&\u00f9\3\2\2\2(\u00fb\3\2\2\2*\u0117\3")
         buf.write("\2\2\2,\u011a\3\2\2\2.\u0127\3\2\2\2\60\u0135\3\2\2\2")
         buf.write("\62\u013f\3\2\2\2\64\u0141\3\2\2\2\66\u0143\3\2\2\28\u0145")
-        buf.write("\3\2\2\2:\u0147\3\2\2\2<\u0159\3\2\2\2>\u015b\3\2\2\2")
-        buf.write("@\u015d\3\2\2\2B\u015f\3\2\2\2DH\5\4\3\2EH\5\6\4\2FH\5")
+        buf.write("\3\2\2\2:\u0147\3\2\2\2<\u0152\3\2\2\2>\u0154\3\2\2\2")
+        buf.write("@\u0156\3\2\2\2B\u0158\3\2\2\2DH\5\4\3\2EH\5\6\4\2FH\5")
         buf.write("\b\5\2GD\3\2\2\2GE\3\2\2\2GF\3\2\2\2H\3\3\2\2\2IK\5\n")
         buf.write("\6\2JI\3\2\2\2KN\3\2\2\2LJ\3\2\2\2LM\3\2\2\2MP\3\2\2\2")
         buf.write("NL\3\2\2\2OQ\5,\27\2PO\3\2\2\2QR\3\2\2\2RP\3\2\2\2RS\3")
@@ -158,22 +157,19 @@ def serializedATN():
         buf.write("\2\2\2\u013e\u0140\5:\36\2\u013f\u013a\3\2\2\2\u013f\u013e")
         buf.write("\3\2\2\2\u0140\63\3\2\2\2\u0141\u0142\7\63\2\2\u0142\65")
         buf.write("\3\2\2\2\u0143\u0144\7\62\2\2\u0144\67\3\2\2\2\u0145\u0146")
-        buf.write("\5<\37\2\u01469\3\2\2\2\u0147\u014a\7\63\2\2\u0148\u0149")
+        buf.write("\7\63\2\2\u01469\3\2\2\2\u0147\u014a\7\63\2\2\u0148\u0149")
         buf.write("\7\17\2\2\u0149\u014b\7\63\2\2\u014a\u0148\3\2\2\2\u014a")
-        buf.write("\u014b\3\2\2\2\u014b;\3\2\2\2\u014c\u015a\7\63\2\2\u014d")
-        buf.write("\u015a\7\62\2\2\u014e\u0150\7\63\2\2\u014f\u014e\3\2\2")
-        buf.write("\2\u0150\u0151\3\2\2\2\u0151\u014f\3\2\2\2\u0151\u0152")
-        buf.write("\3\2\2\2\u0152\u0154\3\2\2\2\u0153\u0155\7\62\2\2\u0154")
-        buf.write("\u0153\3\2\2\2\u0155\u0156\3\2\2\2\u0156\u0154\3\2\2\2")
-        buf.write("\u0156\u0157\3\2\2\2\u0157\u015a\3\2\2\2\u0158\u015a\7")
-        buf.write("$\2\2\u0159\u014c\3\2\2\2\u0159\u014d\3\2\2\2\u0159\u014f")
-        buf.write("\3\2\2\2\u0159\u0158\3\2\2\2\u015a=\3\2\2\2\u015b\u015c")
-        buf.write("\t\7\2\2\u015c?\3\2\2\2\u015d\u015e\t\b\2\2\u015eA\3\2")
-        buf.write("\2\2\u015f\u0160\t\t\2\2\u0160C\3\2\2\2-GLRW`gpu~\u0083")
-        buf.write("\u008a\u0090\u0096\u009e\u00a2\u00b0\u00bc\u00c1\u00c7")
-        buf.write("\u00d3\u00da\u00df\u00e2\u00e9\u00ef\u00f9\u0101\u0107")
-        buf.write("\u010f\u0113\u0117\u011c\u011f\u0123\u0127\u012e\u0133")
-        buf.write("\u013c\u013f\u014a\u0151\u0156\u0159")
+        buf.write("\u014b\3\2\2\2\u014b;\3\2\2\2\u014c\u014e\7\63\2\2\u014d")
+        buf.write("\u014f\7\62\2\2\u014e\u014d\3\2\2\2\u014e\u014f\3\2\2")
+        buf.write("\2\u014f\u0153\3\2\2\2\u0150\u0153\7\62\2\2\u0151\u0153")
+        buf.write("\7$\2\2\u0152\u014c\3\2\2\2\u0152\u0150\3\2\2\2\u0152")
+        buf.write("\u0151\3\2\2\2\u0153=\3\2\2\2\u0154\u0155\t\7\2\2\u0155")
+        buf.write("?\3\2\2\2\u0156\u0157\t\b\2\2\u0157A\3\2\2\2\u0158\u0159")
+        buf.write("\t\t\2\2\u0159C\3\2\2\2,GLRW`gpu~\u0083\u008a\u0090\u0096")
+        buf.write("\u009e\u00a2\u00b0\u00bc\u00c1\u00c7\u00d3\u00da\u00df")
+        buf.write("\u00e2\u00e9\u00ef\u00f9\u0101\u0107\u010f\u0113\u0117")
+        buf.write("\u011c\u011f\u0123\u0127\u012e\u0133\u013c\u013f\u014a")
+        buf.write("\u014e\u0152")
         return buf.getvalue()
 
 
@@ -2241,9 +2237,8 @@ class aiqlParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def val(self):
-            return self.getTypedRuleContext(aiqlParser.ValContext,0)
-
+        def STRING(self):
+            return self.getToken(aiqlParser.STRING, 0)
 
         def getRuleIndex(self):
             return aiqlParser.RULE_attr
@@ -2266,7 +2261,7 @@ class aiqlParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 323
-            self.val()
+            self.match(aiqlParser.STRING)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -2337,17 +2332,11 @@ class aiqlParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def STRING(self, i:int=None):
-            if i is None:
-                return self.getTokens(aiqlParser.STRING)
-            else:
-                return self.getToken(aiqlParser.STRING, i)
+        def STRING(self):
+            return self.getToken(aiqlParser.STRING, 0)
 
-        def INT(self, i:int=None):
-            if i is None:
-                return self.getTokens(aiqlParser.INT)
-            else:
-                return self.getToken(aiqlParser.INT, i)
+        def INT(self):
+            return self.getToken(aiqlParser.INT, 0)
 
         def getRuleIndex(self):
             return aiqlParser.RULE_val
@@ -2367,59 +2356,35 @@ class aiqlParser ( Parser ):
 
         localctx = aiqlParser.ValContext(self, self._ctx, self.state)
         self.enterRule(localctx, 58, self.RULE_val)
-        self._la = 0 # Token type
         try:
-            self.state = 343
+            self.state = 336
             self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,42,self._ctx)
-            if la_ == 1:
+            token = self._input.LA(1)
+            if token in [aiqlParser.STRING]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 330
                 self.match(aiqlParser.STRING)
-                pass
+                self.state = 332
+                self._errHandler.sync(self)
+                la_ = self._interp.adaptivePredict(self._input,40,self._ctx)
+                if la_ == 1:
+                    self.state = 331
+                    self.match(aiqlParser.INT)
 
-            elif la_ == 2:
+
+                pass
+            elif token in [aiqlParser.INT]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 331
+                self.state = 334
                 self.match(aiqlParser.INT)
                 pass
-
-            elif la_ == 3:
+            elif token in [aiqlParser.T__33]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 333 
-                self._errHandler.sync(self)
-                _la = self._input.LA(1)
-                while True:
-                    self.state = 332
-                    self.match(aiqlParser.STRING)
-                    self.state = 335 
-                    self._errHandler.sync(self)
-                    _la = self._input.LA(1)
-                    if not (_la==aiqlParser.STRING):
-                        break
-
-                self.state = 338 
-                self._errHandler.sync(self)
-                _alt = 1
-                while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
-                    if _alt == 1:
-                        self.state = 337
-                        self.match(aiqlParser.INT)
-
-                    else:
-                        raise NoViableAltException(self)
-                    self.state = 340 
-                    self._errHandler.sync(self)
-                    _alt = self._interp.adaptivePredict(self._input,41,self._ctx)
-
-                pass
-
-            elif la_ == 4:
-                self.enterOuterAlt(localctx, 4)
-                self.state = 342
+                self.state = 335
                 self.match(aiqlParser.T__33)
                 pass
-
+            else:
+                raise NoViableAltException(self)
 
         except RecognitionException as re:
             localctx.exception = re
@@ -2459,7 +2424,7 @@ class aiqlParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 345
+            self.state = 338
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << aiqlParser.T__34) | (1 << aiqlParser.T__35) | (1 << aiqlParser.T__36) | (1 << aiqlParser.T__37) | (1 << aiqlParser.T__38))) != 0)):
                 self._errHandler.recoverInline(self)
@@ -2504,7 +2469,7 @@ class aiqlParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 347
+            self.state = 340
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << aiqlParser.T__20) | (1 << aiqlParser.T__39) | (1 << aiqlParser.T__40))) != 0)):
                 self._errHandler.recoverInline(self)
@@ -2549,7 +2514,7 @@ class aiqlParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 349
+            self.state = 342
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << aiqlParser.T__41) | (1 << aiqlParser.T__42) | (1 << aiqlParser.T__43) | (1 << aiqlParser.T__44) | (1 << aiqlParser.T__45) | (1 << aiqlParser.T__46))) != 0)):
                 self._errHandler.recoverInline(self)

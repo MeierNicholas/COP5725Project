@@ -62,7 +62,7 @@ op_edge			: ('->' | '<-') '[' op_exp ']';
 evt_id 			: (STRING (INT)?) | filename; 
 rename_id		: STRING;
 datetime		: INT; 		
-attr 			: val; 			 
+attr 			: STRING; 			 
 
 
 // Values, operations, functions 
@@ -70,9 +70,8 @@ INT	: '0' | '0'..'9'+;
 STRING			: 'a'..'z'+ ;
 filename 		: STRING ('.' STRING)?;
 WS : [ \t\r\n]+ -> skip ;
-val				: STRING
+val				: STRING(INT)?
 				| INT
-				| STRING+ INT+
 				| 'null'; 
 op 				: '<' | '>' | '=' | '<=' | '=>'; 
 agg_func 		: 'sum' | 'count' | 'avg'; 
