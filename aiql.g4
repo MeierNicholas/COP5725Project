@@ -31,7 +31,7 @@ evt_rel			: 'with' rel (',' rel)*;
 
 // Network or host logs 
 entity			: entity_type evt_id? ('[' attr_cstr ']')?;		
-entity_type		: STRING;							// specify process or connection
+entity_type		: 'proc' | 'conn';							// specify process or connection
 
 // Logical expressions 
 op_exp			: keyword

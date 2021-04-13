@@ -18,6 +18,7 @@ class extendedListener(aiqlListener):
 		self.multievents = list()
 		self.dependencies = list() 
 		self.anomalies = list()
+		self.entity = list()
 
 		# flags for query types
 		self.anomalyFlag = 0
@@ -27,6 +28,9 @@ class extendedListener(aiqlListener):
 		# flag for constraints 
 		self.attr_cstrFlag = 0
 		self.twindFlag = 0
+
+		# Entity flags
+		self.entityFlag = 0 
 
 		# Dependency flags 
 		self.forwardDependency = 0
@@ -56,7 +60,7 @@ class extendedListener(aiqlListener):
 		else: 
 			self.FROM += "hostlogs"
 
-		print(self.dependencies)
+		print("DEPENDENCIES:", self.dependencies)
 
 		# Add global constraints to WHERE clause 
 		print(self.global_constraints)
@@ -175,13 +179,17 @@ class extendedListener(aiqlListener):
 		pass
 
 	def enterEntity(self, ctx):
-		pass
+		self.entityFlag = 1			# To store the entity and id, append to the entity list and clear after adding to query type
+		self.entity.append("ENTITY")
 
 	def exitEntity(self, ctx):
-		pass
+		if self.dependencyFlag == 1:
+			self.dependencies.append(self.entity)
+		self.entityFlag =0 
 
 	def enterEntity_type(self, ctx):
-		pass
+		if self.entityFlag == 1:
+			self.entity.append(ctx.getText())
 
 	def exitEntity_type(self, ctx):
 		pass
@@ -232,7 +240,6 @@ class extendedListener(aiqlListener):
 		pass
 
 	def enterD_query(self, ctx):
-		print(ctx.getText())
 		direction = ctx.getText()[0:7]
 		if direction == 'forward':
 			forwardDependency = 1
@@ -252,7 +259,8 @@ class extendedListener(aiqlListener):
 		pass
 
 	def enterEvt_id(self, ctx):
-		pass
+		if self.entityFlag == 1:
+			self.entity.append(ctx.getText())
 
 	def exitEvt_id(self, ctx):
 		pass
