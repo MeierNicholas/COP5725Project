@@ -66,7 +66,7 @@ class extendedListener(aiqlListener):
 		print(self.global_constraints)
 		if len(self.global_constraints) != 0:
 			
-			size = range(len(self.global_constraints))
+			size = range(len(self.global_constraints)-1)
 			for i in size:
 				if self.global_constraints[i][0] == 'TIMEWINDOW':
 					twindstr = "time BETWEEN "
