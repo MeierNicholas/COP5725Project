@@ -16,7 +16,7 @@ twind 			: 'from' datetime 'to' datetime;
 cstr 			: attr_cstr 
 				| '!'? val
 				| attr 'not'? 'in' '(' val (',' val )* ')';
-attr_cstr		: attr op val | filename; 
+attr_cstr		: attr op val; 
 
 // Events & event attributes 
 evt_patt 		: entity op_exp entity evt? ('(' twind ')')?;
