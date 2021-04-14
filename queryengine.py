@@ -148,44 +148,44 @@ class extendedListener(aiqlListener):
 		self.queries.append(self.sfw)
 
 		# Conversion for dependency queries
-		entities = list()
-		edges = list()
-		for i in range(len(self.dependencies)-2):
-			if self.dependencies[i][0] == 'ENTITY':
-				entities.append([self.dependencies[i][1], self.dependencies[i][2]])
-				edges.append([self.dependencies[i][2], self.dependencies[i+1][0], self.dependencies[i+1][1], self.dependencies[i+2][2]])
+		if self.dependencyFlag == 1:
+			entities = list()
+			edges = list()
+			for i in range(len(self.dependencies)-2):
+				if self.dependencies[i][0] == 'ENTITY':
+					entities.append([self.dependencies[i][1], self.dependencies[i][2]])
+					edges.append([self.dependencies[i][2], self.dependencies[i+1][0], self.dependencies[i+1][1], self.dependencies[i+2][2]])
 
-		# DEFINE RETURN VALUE
-		returnVal = self.RES 
-		joinSelects = list()
-		nameMap = list() 
+			# DEFINE RETURN VALUE
+			returnVal = self.RES 
+			joinSelects = list()
+			nameMap = list() 
 
-		# use edges to associate eventIDs with processes 
-		for edge in edges:
-			if edge[1] == '->':
-				temp = "(SELECT * FROM hostlogs WHERE eventID = " + edge[2] + ") as " + edge[0]
-				nameMap.append(edge[0])
-			elif edge[1] == '<-':
-				temp = temp = "(SELECT * FROM hostlogs WHERE eventID = " + edge[2] + ") as " + edge[3]
-				nameMap.append(edge[3])
-			joinSelects.append(temp)
+			# use edges to associate eventIDs with processes 
+			for edge in edges:
+				if edge[1] == '->':
+					temp = "(SELECT * FROM hostlogs WHERE eventID = " + edge[2] + ") AS " + edge[0]
+					nameMap.append(edge[0])
+				elif edge[1] == '<-':
+					temp = temp = "(SELECT * FROM hostlogs WHERE eventID = " + edge[2] + ") AS " + edge[3]
+					nameMap.append(edge[3])
+				joinSelects.append(temp)
 
-		# JOIN on time > or < based on forward and backward keyword
-		numJoins = len(entities) - 1
-		operator = '='
-		if self.forwardDependency == 1: 
-			operator = '<'
-		if self.backwardDependency == 1:
-			operator = '>'
+			# JOIN on time > or < based on forward and backward keyword
+			numJoins = len(entities) - 1
+			operator = '='
+			if self.forwardDependency == 1: 
+				operator = '<'
+			if self.backwardDependency == 1:
+				operator = '>'
 
-		fullQuery = "SELECT " + returnVal + " FROM hostlogs WHERE " 
-		for statement in joinSelects:
-			fullQuery += statement + " JOIN ON "
-		print(fullQuery)
-		print(joinSelects)
-		# RETURN the process where it satisfies those values 
+			fullQuery = "SELECT " + returnVal + " FROM " 
+			for i in range(len(joinSelects)):
+				if i < len(joinSelects)-1:
+					fullQuery += joinSelects[i] + " JOIN " + joinSelects[i+1] + " ON " + nameMap[i] + ".Time" + operator + nameMap[i+1] + ".Time "
 
-		print(edges)
+			print(fullQuery)
+			self.queries.append(fullQuery)
 
 
 	# MULTIEVENT QUERY INSTANCE 
