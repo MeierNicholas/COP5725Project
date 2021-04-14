@@ -60,8 +60,8 @@ class extendedListener(aiqlListener):
 
 		self.queries = list() 	# list of generated queries 
 
-		print(self.firstEvent + " " + "before" + " " + self.secondEvent)
-		print(self.returnValue)
+		# print(self.firstEvent + " " + "before" + " " + self.secondEvent)
+		# print(self.returnValue)
 
 		self.tempRel[self.firstEvent] = (self.multievents[0][0][2], self.multievents[0][2][2])
 		self.tempRel[self.secondEvent] = (self.multievents[1][0][2], self.multievents[1][2][2])
@@ -92,8 +92,6 @@ class extendedListener(aiqlListener):
 			self.FROM += "hostlogs"
 
 		print('\n\n')
-		print("DEPENDENCIES:", self.dependencies)
-
 		#print("MULTIEVENTS", self.multievents[len(self.multievents)-1])
 		print("Multievents: ", self.multievents)
 
@@ -170,9 +168,46 @@ class extendedListener(aiqlListener):
 		# JOIN on time > or < based on forward and backward keyword
 		# RETURN the process where it satisfies those values 
 
-		print("ENTITIES: ", entities)
-
 		print(edges)
+
+		if self.dependencyFlag == 1:
+			entities = list()
+			edges = list()
+			for i in range(len(self.dependencies)-2):
+				if self.dependencies[i][0] == 'ENTITY':
+					entities.append([self.dependencies[i][1], self.dependencies[i][2]])
+					edges.append([self.dependencies[i][2], self.dependencies[i+1][0], self.dependencies[i+1][1], self.dependencies[i+2][2]])
+
+			# DEFINE RETURN VALUE
+			returnVal = self.RES 
+			joinSelects = list()
+			nameMap = list() 
+
+			# use edges to associate eventIDs with processes 
+			for edge in edges:
+				if edge[1] == '->':
+					temp = "(SELECT * FROM hostlogs WHERE eventID = " + edge[2] + ") AS " + edge[0]
+					nameMap.append(edge[0])
+				elif edge[1] == '<-':
+					temp = temp = "(SELECT * FROM hostlogs WHERE eventID = " + edge[2] + ") AS " + edge[3]
+					nameMap.append(edge[3])
+				joinSelects.append(temp)
+
+			# JOIN on time > or < based on forward and backward keyword
+			numJoins = len(entities) - 1
+			operator = '='
+			if self.forwardDependency == 1: 
+				operator = '<'
+			if self.backwardDependency == 1:
+				operator = '>'
+
+			fullQuery = "SELECT " + returnVal + " FROM " 
+			for i in range(len(joinSelects)):
+				if i < len(joinSelects)-1:
+					fullQuery += joinSelects[i] + " JOIN " + joinSelects[i+1] + " ON " + nameMap[i] + ".Time" + operator + nameMap[i+1] + ".Time "
+
+			print(fullQuery)
+			self.queries.append(fullQuery)
 
 
 	# MULTIEVENT QUERY INSTANCE 
@@ -323,9 +358,9 @@ class extendedListener(aiqlListener):
 	def enterD_query(self, ctx):
 		direction = ctx.getText()[0:7]
 		if direction == 'forward':
-			forwardDependency = 1
+			self.forwardDependency = 1
 		else:
-			backwardDependency = 1
+			self.backwardDependency = 1
 
 	def exitD_query(self, ctx):
 		pass
@@ -518,8 +553,9 @@ def generateQuery(tokens):
 recordsList1 = list()
 recordsList2 = list()
 
-def executeQuery(queryString, tempRel):
-	conn = psycopg2.connect("dbname=projectdb user=postgres password=leoeatsbroccoli")
+
+def executeQuery(queryString):
+	conn = psycopg2.connect("dbname=postgres user=postgres password=leoeatsbroccoli")
 	cur = conn.cursor()
 
 	testlist = list()
