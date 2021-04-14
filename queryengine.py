@@ -58,8 +58,8 @@ class extendedListener(aiqlListener):
 
 		self.queries = list() 	# list of generated queries 
 
-		print(self.firstEvent + " " + "before" + " " + self.secondEvent)
-		print(self.returnValue)
+		# print(self.firstEvent + " " + "before" + " " + self.secondEvent)
+		# print(self.returnValue)
 
 		# CONVERT EVERYTHING TO SQL 
 		self.SELECT = "SELECT * " 
@@ -85,8 +85,6 @@ class extendedListener(aiqlListener):
 			self.FROM += "hostlogs"
 
 		print('\n\n')
-		print("DEPENDENCIES:", self.dependencies)
-
 		#print("MULTIEVENTS", self.multievents[len(self.multievents)-1])
 		print("Multievents: ", self.multievents)
 
@@ -158,9 +156,19 @@ class extendedListener(aiqlListener):
 				edges.append([self.dependencies[i][2], self.dependencies[i+1][0], self.dependencies[i+1][1], self.dependencies[i+2][2]])
 
 		# DEFINE RETURN VALUE
-		
+		returnVal = self.RES 
+
 		# use edges to associate eventIDs with processes 
+		for edge in edges:
+			if edge[1] == '->':
+				temp = "(SELECT * FROM hostlogs WHERE eventID = " + edge[2] + ") as " + edge[0]
+			elif edge[1] == '<-':
+				temp = temp = "(SELECT * FROM hostlogs WHERE eventID = " + edge[2] + ") as " + edge[3]
+
 		# JOIN on time > or < based on forward and backward keyword
+		numJoins = len(entities) - 1
+
+
 		# RETURN the process where it satisfies those values 
 
 		print(edges)
@@ -481,7 +489,7 @@ def generateQuery(tokens):
 
 
 def executeQuery(queryString):
-	conn = psycopg2.connect("dbname=projectdb user=postgres password=leoeatsbroccoli")
+	conn = psycopg2.connect("dbname=postgres user=postgres password=leoeatsbroccoli")
 	cur = conn.cursor()
 
 	#needs to execute whatever query argument was passed to the function
