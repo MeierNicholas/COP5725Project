@@ -69,14 +69,14 @@ class extendedListener(aiqlListener):
 
 		#print("MULTIEVENTS", self.multievents[len(self.multievents)-1])
 		print("Multievents: ", self.multievents)
-		print("Number of queries = ", len(self.multievents))
+
 		#self.multievents = self.multievents[len(self.multievents)-1]
 
 		# Add global constraints to WHERE clause 
 		print("GLOBAL CONSTRAINTS:", self.global_constraints)
 		if len(self.global_constraints) != 0:
 			
-			size = range(len(self.global_constraints)-1)
+			size = range(len(self.global_constraints))
 			for i in size:
 				if self.global_constraints[i][0] == 'TIMEWINDOW':
 					twindstr = "time BETWEEN "
@@ -114,7 +114,8 @@ class extendedListener(aiqlListener):
 			self.WHERE = self.tempWHERE
 
 			self.queries.append(self.sfw)
-		#self.queries.append(self.sfw)
+		
+		self.queries.append(self.sfw)
 
 	# MULTIEVENT QUERY INSTANCE 
 	def enterMultievent(self, ctx):
@@ -358,7 +359,8 @@ class extendedListener(aiqlListener):
 		if self.dependencyFlag == 1:
 			self.dependencies.append("EventID = " + str(self.eventID))
 
-		self.evt_patt.append(str(self.keyword))
+		if self.multieventFlag == 1:
+			self.evt_patt.append(str(self.keyword))
 
 
 
