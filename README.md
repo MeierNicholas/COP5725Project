@@ -45,5 +45,5 @@ This project requires several Python libraries in order to function properly. Th
 	- The network events represent bi-directional events when possible. They are in the form of: {Time, Duration, SrcDevice, DstDevice, Protocol, SrcPort, DstPort, SrcPackets, DstPackets, SrcBytes, DstBytes}.
 
 ## PostgreSQL Database
-- We have one single database, projectdb, which contains two relations. The first relation, hostlogs, contains our host event logs. The screenshot below shows the columns and their respective types in this relation. ![hostlogs relation](./Assets/hostlogsscreenshot.png)   
-The second relation, netlogs, contains our sample network event logs. The screenshot below shows the columns and their repsective types in this relation.  ![nelogs relation](./Assets/netlogsscreenshot.png)
+- We have one single database, projectdb, which contains two relations. The first relation, hostlogs, contains our host event logs. The screenshot below shows the columns and their respective types in this relation. <br/><br/> ![hostlogs relation](./Assets/hostlogsscreenshot.png)   
+The second relation, netlogs, contains our sample network event logs. The screenshot below shows the columns and their repsective types in this relation. <br/><br/> ![nelogs relation](./Assets/netlogsscreenshot.png)
