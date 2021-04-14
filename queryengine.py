@@ -48,6 +48,8 @@ class extendedListener(aiqlListener):
 		self.outputResult = 0 	
 		self.distinctResults = 0	
 		self.countResults = 0
+		self.aggregateResult = '' 
+		self.RES = '' 
 
 		#extra flags
 		self.equalsFlag = 0
@@ -69,8 +71,12 @@ class extendedListener(aiqlListener):
 			self.SELECT = "SELECT DISTINCT *"
 		if self.countResults == 1:
 			self.SELECT = "SELECT COUNT(*)"
+		if len(self.aggregateResult) != 0:
+			#then we must aggregate results
+			self.SELECT = "SELECT " + self.aggregateResult + "(*) " 
 
 		# Keep track of event_ids and check here if the return value is an event ID or an attribute 
+
 
 		# query to network or host logs
 		if (self.anomalyFlag == 1):
@@ -194,11 +200,8 @@ class extendedListener(aiqlListener):
 
 
 	def enterCstr(self, ctx):
+		# Updated and handled in ATTRIBUTE CONSTRAINT
 		pass
-
-	def exitCstr(self, ctx):
-		pass
-
 
 	def enterAttr_cstr(self, ctx):
 		self.attr_cstrFlag = 1
@@ -301,18 +304,6 @@ class extendedListener(aiqlListener):
 	def exitRes(self, ctx):
 		pass
 
-	def enterGroup_by(self, ctx):
-		pass
-
-	def exitGroup_by(self, ctx):
-		pass
-
-	def enterRet_filter(self, ctx):
-		pass
-
-	def exitRet_filter(self, ctx):
-		pass
-
 	def enterM_query(self, ctx):
 		self.m_queryFlag = 1
 
@@ -341,6 +332,8 @@ class extendedListener(aiqlListener):
 	def enterEvt_id(self, ctx):
 		if self.entityFlag == 1:
 			self.entity.append(ctx.getText())
+		elif self.outputResult == 1:
+			self.RES = ctx.getText()
 
 	def exitEvt_id(self, ctx):
 		self.returnValue = ctx.getText()
@@ -363,6 +356,8 @@ class extendedListener(aiqlListener):
 	def enterAttr(self, ctx):
 		if self.attr_cstrFlag == 1:
 			self.attr_cstr.append(ctx.getText())
+		elif self.outputResult == 1:
+			self.RES = ctx.getText()
 
 	def exitAttr(self, ctx):
 		pass
@@ -384,7 +379,8 @@ class extendedListener(aiqlListener):
 		pass
 
 	def enterAgg_func(self, ctx):
-		pass
+		if self.outputResult == 1:
+			self.aggregateResult = (ctx.getText())
 
 	def exitAgg_func(self, ctx):
 		pass

@@ -179,24 +179,6 @@ class aiqlListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by aiqlParser#group_by.
-    def enterGroup_by(self, ctx:aiqlParser.Group_byContext):
-        pass
-
-    # Exit a parse tree produced by aiqlParser#group_by.
-    def exitGroup_by(self, ctx:aiqlParser.Group_byContext):
-        pass
-
-
-    # Enter a parse tree produced by aiqlParser#ret_filter.
-    def enterRet_filter(self, ctx:aiqlParser.Ret_filterContext):
-        pass
-
-    # Exit a parse tree produced by aiqlParser#ret_filter.
-    def exitRet_filter(self, ctx:aiqlParser.Ret_filterContext):
-        pass
-
-
     # Enter a parse tree produced by aiqlParser#m_query.
     def enterM_query(self, ctx:aiqlParser.M_queryContext):
         pass
