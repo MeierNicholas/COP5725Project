@@ -56,6 +56,9 @@ class extendedListener(aiqlListener):
 
 		self.queries = list() 	# list of generated queries 
 
+		print(self.firstEvent + " " + "before" + " " + self.secondEvent)
+		print(self.returnValue)
+
 		# CONVERT EVERYTHING TO SQL 
 		self.SELECT = "SELECT * " 
 		self.FROM = "FROM " 
@@ -126,7 +129,7 @@ class extendedListener(aiqlListener):
 
 		for i in range(0, len(self.multievents)):
 			if self.multievents[i][1] == "execute":
-				self.WHERE += "ParentProcessName=\'"
+				self.WHERE += " AND ParentProcessName=\'"
 				self.WHERE += self.multievents[i][0][2]
 				self.WHERE += '\' '
 				self.WHERE += "AND ProcessName=\'"
@@ -238,6 +241,11 @@ class extendedListener(aiqlListener):
 		pass
 
 	def exitTemp_rel(self, ctx):
+		self.relationship = ctx.getText()
+		self.start = self.relationship.find("before")
+		self.firstEvent = self.relationship[0:self.start]
+		self.secondEvent = self.relationship[self.start+6:]
+		print(self.firstEvent + " " + "before" + " " + self.secondEvent)
 		pass
 
 	def enterEvt_rel(self, ctx):
@@ -335,6 +343,7 @@ class extendedListener(aiqlListener):
 			self.entity.append(ctx.getText())
 
 	def exitEvt_id(self, ctx):
+		self.returnValue = ctx.getText()
 		pass
 
 	def enterRename_id(self, ctx):
@@ -476,7 +485,7 @@ def generateQuery(tokens):
 
 
 def executeQuery(queryString):
-	conn = psycopg2.connect("dbname=postgres user=postgres password=leoeatsbroccoli")
+	conn = psycopg2.connect("dbname=projectdb user=postgres password=leoeatsbroccoli")
 	cur = conn.cursor()
 
 	#needs to execute whatever query argument was passed to the function
