@@ -67,6 +67,8 @@ class extendedListener(aiqlListener):
 		if self.countResults == 1:
 			self.SELECT = "SELECT COUNT(*)"
 
+		# Keep track of event_ids and check here if the return value is an event ID or an attribute 
+
 		# query to network or host logs
 		if (self.anomalyFlag == 1):
 			self.FROM += "netlogs"

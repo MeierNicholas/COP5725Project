@@ -24,7 +24,7 @@ evt 			: 'as' evt_id ('[' attr_cstr ']')?;
 rel 			: attr_rel | temp_rel;
 attr_rel		: evt_id'.'attr op evt_id'.'attr
 				| evt_id op evt_id;
-temp_rel		: evt_id ('before' | 'after' | 'within') evt_id;
+temp_rel		: evt_id 'before' evt_id;
 evt_rel			: 'with' rel (',' rel)*;
 
 // Network or host logs 
