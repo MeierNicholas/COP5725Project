@@ -46,4 +46,4 @@ This project requires several Python libraries in order to function properly. Th
 
 ## PostgreSQL Database
 - We have one single database, projectdb, which contains two relations. The first relation, hostlogs, contains our host event logs. The screenshot below shows the columns and their respective types in this relation. ![hostlogs relation](./Assets/hostlogsscreenshot.png)   
-The second relation, netlogs, contains our sample network event logs. The screenshot below shows the columns and their repsective types in this relation.  ![nelogs relation](./Assets/netlogsscreenshot.png)
+The second relation, netlogs, contains our sample network event logs. The screenshot below shows the columns and their repsective types in this relation. <br><\br> ![nelogs relation](./Assets/netlogsscreenshot.png)
