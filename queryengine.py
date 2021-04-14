@@ -61,6 +61,11 @@ class extendedListener(aiqlListener):
 		self.FROM = "FROM " 
 		self.WHERE = " WHERE "
 
+		# distinct, count, and aggregate returns
+		if self.distinctResults == 1:
+			self.SELECT = "SELECT DISTINCT *"
+		if self.countResults == 1:
+			self.SELECT = "SELECT COUNT(*)"
 
 		# query to network or host logs
 		if (self.anomalyFlag == 1):
@@ -87,7 +92,7 @@ class extendedListener(aiqlListener):
 					twindstr += self.global_constraints[i][1]
 					twindstr += " AND "
 					twindstr += self.global_constraints[i][2]
-					twindstr += " AND "
+					# twindstr += " AND "
 					self.WHERE += twindstr
 
 					if i < len(self.global_constraints)-1:
@@ -469,7 +474,7 @@ def generateQuery(tokens):
 
 
 def executeQuery(queryString):
-	conn = psycopg2.connect("dbname=projectdb user=postgres password=leoeatsbroccoli")
+	conn = psycopg2.connect("dbname=postgres user=postgres password=leoeatsbroccoli")
 	cur = conn.cursor()
 
 	#needs to execute whatever query argument was passed to the function
