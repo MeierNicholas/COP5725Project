@@ -65,6 +65,7 @@ class extendedListener(aiqlListener):
 		else: 
 			self.FROM += "hostlogs"
 
+		print('\n\n')
 		print("DEPENDENCIES:", self.dependencies)
 
 		#print("MULTIEVENTS", self.multievents[len(self.multievents)-1])
@@ -282,9 +283,9 @@ class extendedListener(aiqlListener):
 
 	def enterOp_edge(self, ctx):
 		if ctx.getText()[0:2] == '->': 
-			opEdgeFwd = 1
-		elif ctx.getText()[0:2] -- '<-': 
-			opEdgeBwd = 1
+			self.opEdgeFwd = 1
+		elif ctx.getText()[0:2] == '<-': 
+			self.opEdgeBwd = 1
 
 	def exitOp_edge(self, ctx):
 		pass
@@ -357,7 +358,10 @@ class extendedListener(aiqlListener):
 			self.eventID = 1
 
 		if self.dependencyFlag == 1:
-			self.dependencies.append("EventID = " + str(self.eventID))
+			if self.opEdgeFwd == 1: 
+				self.dependencies.append("-> EventID = " + str(self.eventID))
+			elif self.opEdgeBwd == 1:
+				self.dependencies.append("<- EventID = " + str(self.eventID))
 
 		if self.multieventFlag == 1:
 			self.evt_patt.append(str(self.keyword))
