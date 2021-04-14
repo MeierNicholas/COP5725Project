@@ -69,6 +69,7 @@ class extendedListener(aiqlListener):
 
 		#print("MULTIEVENTS", self.multievents[len(self.multievents)-1])
 		print("Multievents: ", self.multievents)
+		print("Number of queries = ", len(self.multievents))
 		#self.multievents = self.multievents[len(self.multievents)-1]
 
 		# Add global constraints to WHERE clause 
@@ -94,11 +95,26 @@ class extendedListener(aiqlListener):
 						self.WHERE += " AND "
 
 			self.sfw = self.SELECT + self.FROM + self.WHERE
+			self.tempWHERE = self.WHERE
 
 		else:
 			self.sfw = self.SELECT + self.FROM
 
-		self.queries.append(self.sfw)
+
+		for i in range(0, len(self.multievents)):
+			if self.multievents[i][1] == "execute":
+				self.WHERE += "ParentProcessName="
+				self.WHERE += self.multievents[i][0][2]
+				self.WHERE += " "
+				self.WHERE += "AND ProcessName="
+				self.WHERE += self.multievents[i][2][2]
+				self.WHERE += " "
+			print("WHERE: ", self.WHERE)
+			self.sfw = self.SELECT + self.FROM + self.WHERE	
+			self.WHERE = self.tempWHERE
+
+			self.queries.append(self.sfw)
+		#self.queries.append(self.sfw)
 
 	# MULTIEVENT QUERY INSTANCE 
 	def enterMultievent(self, ctx):
