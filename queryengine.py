@@ -49,6 +49,9 @@ class extendedListener(aiqlListener):
 		self.distinctResults = 0	
 		self.countResults = 0
 
+		#extra flags
+		self.equalsFlag = 0
+
 	def exitAiql(self, ctx):
 
 		self.queries = list() 	# list of generated queries 
@@ -84,6 +87,7 @@ class extendedListener(aiqlListener):
 					twindstr += self.global_constraints[i][1]
 					twindstr += " AND "
 					twindstr += self.global_constraints[i][2]
+					twindstr += " AND "
 					self.WHERE += twindstr
 
 					if i < len(self.global_constraints)-1:
@@ -91,6 +95,17 @@ class extendedListener(aiqlListener):
 						
 				else: 
 					for word in self.global_constraints[i]:
+						if self.equalsFlag == 1:
+							self.WHERE += '\''
+							self.WHERE += word
+							self.WHERE += '\''
+							equalsFlag = 0
+							continue
+
+						if word == "=":
+							self.equalsFlag = 1
+
+						print(word)
 						self.WHERE += word + " "
 					if i < len(self.global_constraints)-1:
 						self.WHERE += " AND "
@@ -104,12 +119,12 @@ class extendedListener(aiqlListener):
 
 		for i in range(0, len(self.multievents)):
 			if self.multievents[i][1] == "execute":
-				self.WHERE += "ParentProcessName="
+				self.WHERE += "ParentProcessName=\'"
 				self.WHERE += self.multievents[i][0][2]
-				self.WHERE += " "
-				self.WHERE += "AND ProcessName="
+				self.WHERE += '\' '
+				self.WHERE += "AND ProcessName=\'"
 				self.WHERE += self.multievents[i][2][2]
-				self.WHERE += " "
+				self.WHERE += '\' '
 			print("WHERE: ", self.WHERE)
 			self.sfw = self.SELECT + self.FROM + self.WHERE	
 			self.WHERE = self.tempWHERE
@@ -491,14 +506,14 @@ def main():
 	print(printer.queries)
 
 	# Schedule & Run generated queries 
-	#queryScheduler(printer.queries, printer.anomalyFlag)	
+	queryScheduler(printer.queries, printer.anomalyFlag)	
 
 	# testQueries = {"SELECT * FROM hostlogs WHERE processname='dllhost.exe';", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792;", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792 AND processid='0x1110';"}
 	# print("Initial Query Order: ", testQueries)
 	# print("Optimized Query Order: ", queryScheduler(testQueries))
 
 #	records = executeQuery()
-#	printResults(records, printer.anomalyFlag)
+	#printResults(resultSet, printer.anomalyFlag)
 
 if __name__ == '__main__':
 	main()
