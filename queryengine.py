@@ -135,9 +135,20 @@ class extendedListener(aiqlListener):
 
 		# Conversion for dependency queries
 		entities = list()
-		for i in range(len(self.dependencies)):
+		edges = list()
+		for i in range(len(self.dependencies)-2):
 			if self.dependencies[i][0] == 'ENTITY':
-				entities.append(self.dependencies[i])
+				entities.append([self.dependencies[i][1], self.dependencies[i][2]])
+				edges.append([self.dependencies[i][2], self.dependencies[i+1][0], self.dependencies[i+1][1], self.dependencies[i+2][2]])
+
+		# DEFINE RETURN VALUE
+		
+		# use edges to associate eventIDs with processes 
+		# JOIN on time > or < based on forward and backward keyword
+		# RETURN the process where it satisfies those values 
+
+		print(edges)
+
 
 	# MULTIEVENT QUERY INSTANCE 
 	def enterMultievent(self, ctx):
@@ -251,6 +262,7 @@ class extendedListener(aiqlListener):
 
 	def enterOp_exp(self, ctx):
 		pass
+
 	# Handling return statements 
 	def enterRet(self, ctx):
 		self.retStatement = 1
