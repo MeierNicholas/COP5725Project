@@ -20,6 +20,7 @@ class extendedListener(aiqlListener):
 		self.anomalies = list()
 		self.entity = list()
 		self.eventPatterns = list()
+		self.tempRel = dict()
 
 		# flags for query types
 		self.anomalyFlag = 0
@@ -53,6 +54,7 @@ class extendedListener(aiqlListener):
 
 		#extra flags
 		self.equalsFlag = 0
+		self.temporalFlag = 0
 
 	def exitAiql(self, ctx):
 
@@ -60,6 +62,11 @@ class extendedListener(aiqlListener):
 
 		print(self.firstEvent + " " + "before" + " " + self.secondEvent)
 		print(self.returnValue)
+
+		self.tempRel[self.firstEvent] = (self.multievents[0][0][2], self.multievents[0][2][2])
+		self.tempRel[self.secondEvent] = (self.multievents[1][0][2], self.multievents[1][2][2])
+
+		print("Relationship Dictonary: ", self.tempRel)
 
 		# CONVERT EVERYTHING TO SQL 
 		self.SELECT = "SELECT * " 
@@ -163,6 +170,8 @@ class extendedListener(aiqlListener):
 		# JOIN on time > or < based on forward and backward keyword
 		# RETURN the process where it satisfies those values 
 
+		print("ENTITIES: ", entities)
+
 		print(edges)
 
 
@@ -241,6 +250,7 @@ class extendedListener(aiqlListener):
 		pass
 
 	def enterTemp_rel(self, ctx):
+		self.TemporalFlag = 1
 		pass
 
 	def exitTemp_rel(self, ctx):
@@ -440,8 +450,7 @@ M = dict()
 pruningScores = dict() 
 executed = list()
 # main scheduler 
-def queryScheduler(queries, flag):
-	
+def queryScheduler(queries, flag, tempRel):	
 	for query in queries:
 		# caluclate pruning score 
 		pruningScores[query] = pruningScore(query)
@@ -452,12 +461,38 @@ def queryScheduler(queries, flag):
 		# change executeQuery function in QE to take in a query and return the results 
 		# M[query] = executeQuery(str(query))					# map M that stores the mapping from the event pattern ID to the set of event ID tuples that its execution results belong to. 
 
-		executeQuery(query)
+		executeQuery(query, tempRel)
 
 		executed.append(query)
 
 	print("Query returned " + str(len(resultSet)) + " unique log events")
-	printResults(resultSet, flag)
+
+
+	listOne = list()
+	listTwo = list()
+	finalList = list()
+	condition = True
+
+
+
+	for i in resultSet:
+		if i[6] == tempRel[list(tempRel.keys())[0]][0] and i[8] == tempRel[list(tempRel.keys())[0]][1]:
+			listOne.append(i)
+		if i[6] == tempRel[list(tempRel.keys())[1]][0] and i[8] == tempRel[list(tempRel.keys())[1]][1]:
+			listTwo.append(i)
+
+
+	for i in listOne:
+		for j in listTwo:
+			if i[9] > j[9]:
+				condition = False
+		if condition == True:
+			finalList.append(i)
+
+
+	print("length of original query 1: ", len(listOne))
+	print("list of final query 1: ", len(finalList))
+
 
 	return sortedScores
 
@@ -480,17 +515,30 @@ def generateQuery(tokens):
 	return query
 
 
-def executeQuery(queryString):
+recordsList1 = list()
+recordsList2 = list()
+
+def executeQuery(queryString, tempRel):
 	conn = psycopg2.connect("dbname=projectdb user=postgres password=leoeatsbroccoli")
 	cur = conn.cursor()
+
+	testlist = list()
 
 	#needs to execute whatever query argument was passed to the function
 	cur.execute(queryString)
 
 	records = cur.fetchall()
 
+	print(tempRel[list(tempRel.keys())[0]][0])
+	print(tempRel[list(tempRel.keys())[0]][1])
+	print(tempRel[list(tempRel.keys())[1]][0])
+	print(tempRel[list(tempRel.keys())[1]][1])
+
+
 	for i in records:
 		resultSet.add(i)
+
+	#print("TESTLIST: ", testlist)
 
 def printResults(records, flag):
 	x = PrettyTable()
@@ -507,6 +555,7 @@ def printResults(records, flag):
 		x.add_row(i)
 
 	print(x)
+
 
 def printNodes(tree):
 	if tree.getText() == "<EOF>":
@@ -528,9 +577,12 @@ def main():
 	walker.walk(printer, tree)
 
 	print(printer.queries)
+	print("FIRST EVENT: ",printer.firstEvent)
+	print("SECOND EVENT: ",printer.secondEvent)
+	#print("WHAT: ",printer.tempRel)
 
 	# Schedule & Run generated queries 
-	queryScheduler(printer.queries, printer.anomalyFlag)	
+	queryScheduler(printer.queries, printer.anomalyFlag, printer.tempRel)	
 
 	# testQueries = {"SELECT * FROM hostlogs WHERE processname='dllhost.exe';", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792;", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792 AND processid='0x1110';"}
 	# print("Initial Query Order: ", testQueries)
