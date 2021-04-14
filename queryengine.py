@@ -157,13 +157,18 @@ class extendedListener(aiqlListener):
 
 		# DEFINE RETURN VALUE
 		returnVal = self.RES 
+		joinSelects = list()
+		nameMap = list() 
 
 		# use edges to associate eventIDs with processes 
 		for edge in edges:
 			if edge[1] == '->':
 				temp = "(SELECT * FROM hostlogs WHERE eventID = " + edge[2] + ") as " + edge[0]
+				nameMap.append(edge[0])
 			elif edge[1] == '<-':
 				temp = temp = "(SELECT * FROM hostlogs WHERE eventID = " + edge[2] + ") as " + edge[3]
+				nameMap.append(edge[3])
+			joinSelects.append(temp)
 
 		# JOIN on time > or < based on forward and backward keyword
 		numJoins = len(entities) - 1
@@ -173,9 +178,11 @@ class extendedListener(aiqlListener):
 		if self.backwardDependency == 1:
 			operator = '>'
 
-		print("OPERATOR: ", operator)
-
-
+		fullQuery = "SELECT " + returnVal + " FROM hostlogs WHERE " 
+		for statement in joinSelects:
+			fullQuery += statement + " JOIN ON "
+		print(fullQuery)
+		print(joinSelects)
 		# RETURN the process where it satisfies those values 
 
 		print(edges)
