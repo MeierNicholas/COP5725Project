@@ -43,16 +43,12 @@ res				: evt_id('.'attr)?
 				| attr
 				| agg_func'(' res ')'
 				| 'as' rename_id;
-group_by		: 'group by' res (',' res)*;
-ret_filter			: 'having' (res | cstr)
-				| 'sort by' attr (',' attr)* ('asc' | 'desc')?
-				| 'top' INT; 
 
 // Multievent query 
-m_query 		: evt_patt+ evt_rel? ret ret_filter?;
+m_query 		: evt_patt+ evt_rel? ret;
 
 // Dependency query 
-d_query 		: (('forward' | 'backward') ':')? (entity op_edge)+ entity ret ret_filter?;
+d_query 		: (('forward' | 'backward') ':')? (entity op_edge)+ entity ret;
 op_edge			: ('->' | '<-') '[' op_exp ']';
 
 

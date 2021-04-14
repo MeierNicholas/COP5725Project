@@ -296,18 +296,6 @@ class extendedListener(aiqlListener):
 	def exitRes(self, ctx):
 		pass
 
-	def enterGroup_by(self, ctx):
-		pass
-
-	def exitGroup_by(self, ctx):
-		pass
-
-	def enterRet_filter(self, ctx):
-		pass
-
-	def exitRet_filter(self, ctx):
-		pass
-
 	def enterM_query(self, ctx):
 		self.m_queryFlag = 1
 
@@ -338,8 +326,6 @@ class extendedListener(aiqlListener):
 			self.entity.append(ctx.getText())
 		elif self.outputResult == 1:
 			self.RES = ctx.getText()
-			print("RESULT:", self.RES)
-
 
 	def exitEvt_id(self, ctx):
 		pass
@@ -363,7 +349,6 @@ class extendedListener(aiqlListener):
 			self.attr_cstr.append(ctx.getText())
 		elif self.outputResult == 1:
 			self.RES = ctx.getText()
-			print("RESULT:", self.RES)
 
 	def exitAttr(self, ctx):
 		pass
