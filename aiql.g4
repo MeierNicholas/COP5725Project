@@ -13,8 +13,7 @@ global_cstr		: cstr | '(' twind ')';
 twind 			: 'from' datetime 'to' datetime;	
 
 // Attribute constraints 		
-cstr 			: attr_cstr 
-				| attr 'not'? 'in' '(' val (',' val )* ')';
+cstr 			: attr_cstr;
 attr_cstr		: attr op val; 
 
 // Events & event attributes 
