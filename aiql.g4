@@ -73,5 +73,5 @@ val				: STRING(INT)?
 				| INT
 				| 'null'; 
 op 				: '<' | '>' | '=' | '<=' | '=>'; 
-agg_func 		: 'sum' | 'count' | 'avg'; 
+agg_func 		: 'sum' | 'avg'; 
 keyword 		: 'execute' | 'fail' | 'priv' | 'explicit' | 'shutdown' | 'connect'; 
