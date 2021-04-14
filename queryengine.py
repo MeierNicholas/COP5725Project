@@ -118,6 +118,12 @@ class extendedListener(aiqlListener):
 		
 		self.queries.append(self.sfw)
 
+		# Conversion for dependency queries
+		entities = list()
+		for i in range(len(self.dependencies)):
+			if self.dependencies[i][0] == 'ENTITY':
+				entities.append(self.dependencies[i])
+
 	# MULTIEVENT QUERY INSTANCE 
 	def enterMultievent(self, ctx):
 		self.multieventFlag = 1
@@ -359,9 +365,9 @@ class extendedListener(aiqlListener):
 
 		if self.dependencyFlag == 1:
 			if self.opEdgeFwd == 1: 
-				self.dependencies.append("-> EventID = " + str(self.eventID))
+				self.dependencies.append(["->", str(self.eventID)])
 			elif self.opEdgeBwd == 1:
-				self.dependencies.append("<- EventID = " + str(self.eventID))
+				self.dependencies.append(["<-", str(self.eventID)])
 
 		if self.multieventFlag == 1:
 			self.evt_patt.append(str(self.keyword))
