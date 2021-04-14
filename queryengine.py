@@ -167,6 +167,13 @@ class extendedListener(aiqlListener):
 
 		# JOIN on time > or < based on forward and backward keyword
 		numJoins = len(entities) - 1
+		operator = '='
+		if self.forwardDependency == 1: 
+			operator = '<'
+		if self.backwardDependency == 1:
+			operator = '>'
+
+		print("OPERATOR: ", operator)
 
 
 		# RETURN the process where it satisfies those values 
@@ -321,9 +328,9 @@ class extendedListener(aiqlListener):
 	def enterD_query(self, ctx):
 		direction = ctx.getText()[0:7]
 		if direction == 'forward':
-			forwardDependency = 1
+			self.forwardDependency = 1
 		else:
-			backwardDependency = 1
+			self.backwardDependency = 1
 
 	def exitD_query(self, ctx):
 		pass
