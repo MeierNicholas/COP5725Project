@@ -66,7 +66,8 @@ attr 			: STRING;
 
 // Values, operations, functions 
 INT	: '0' | '0'..'9'+;
-STRING			: 'a'..'z'+ ;
+STRING			: LETTER+;
+LETTER			: 'a'..'z' | 'A'..'Z';
 filename 		: STRING ('.' STRING)?;
 WS : [ \t\r\n]+ -> skip ;
 val				: STRING(INT)?
