@@ -19,6 +19,7 @@ class extendedListener(aiqlListener):
 		self.dependencies = list() 
 		self.anomalies = list()
 		self.entity = list()
+		self.eventPatterns = list()
 
 		# flags for query types
 		self.anomalyFlag = 0
@@ -31,6 +32,10 @@ class extendedListener(aiqlListener):
 
 		# Entity flags
 		self.entityFlag = 0 
+		self.m_queryFlag = 0
+
+		#MultiEvent flags
+		self.evtpattFlag = 0
 
 		# Dependency flags 
 		self.forwardDependency = 0
@@ -62,8 +67,12 @@ class extendedListener(aiqlListener):
 
 		print("DEPENDENCIES:", self.dependencies)
 
+		#print("MULTIEVENTS", self.multievents[len(self.multievents)-1])
+		print("Multievents: ", self.multievents)
+		#self.multievents = self.multievents[len(self.multievents)-1]
+
 		# Add global constraints to WHERE clause 
-		print(self.global_constraints)
+		print("GLOBAL CONSTRAINTS:", self.global_constraints)
 		if len(self.global_constraints) != 0:
 			
 			size = range(len(self.global_constraints)-1)
@@ -87,8 +96,7 @@ class extendedListener(aiqlListener):
 			self.sfw = self.SELECT + self.FROM + self.WHERE
 
 		else:
-			self.sfw = self.SELECT + self.FROM 
-
+			self.sfw = self.SELECT + self.FROM
 
 		self.queries.append(self.sfw)
 
@@ -106,6 +114,7 @@ class extendedListener(aiqlListener):
 
 	# GLOBAL CONSTRAINT INSTANCE
 	def enterGlobal_cstr(self, ctx):
+		#print(ctx.getText())
 		self.global_cstrFlag = 1 
 
 	def exitGlobal_cstr(self, ctx):
@@ -142,10 +151,12 @@ class extendedListener(aiqlListener):
 		self.attr_cstrFlag = 0
 
 	def enterEvt_patt(self, ctx):
-		pass
+		self.evtpattFlag = 1
+		self.evt_patt = list()
 
 	def exitEvt_patt(self, ctx):
-		pass
+		self.multievents.append(self.evt_patt)
+		self.evtpattFlag = 0
 
 	def enterEvt(self, ctx):
 		pass
@@ -181,11 +192,15 @@ class extendedListener(aiqlListener):
 	def enterEntity(self, ctx):
 		self.entityFlag = 1			# To store the entity and id, append to the entity list and clear after adding to query type
 		self.entity.append("ENTITY")
+		#print(ctx.getText())
 
 	def exitEntity(self, ctx):
 		if self.dependencyFlag == 1:
 			self.dependencies.append(self.entity)
-		self.entityFlag =0 
+		if self.multieventFlag == 1:
+			self.evt_patt.append(self.entity)
+		self.entityFlag =0
+		self.entity = list() 
 
 	def enterEntity_type(self, ctx):
 		if self.entityFlag == 1:
@@ -197,7 +212,6 @@ class extendedListener(aiqlListener):
 
 	def enterOp_exp(self, ctx):
 		pass
-
 	# Handling return statements 
 	def enterRet(self, ctx):
 		self.retStatement = 1
@@ -234,10 +248,10 @@ class extendedListener(aiqlListener):
 		pass
 
 	def enterM_query(self, ctx):
-		pass
+		self.m_queryFlag = 1
 
 	def exitM_query(self, ctx):
-		pass
+		self.m_queryFlag = 0
 
 	def enterD_query(self, ctx):
 		direction = ctx.getText()[0:7]
@@ -327,6 +341,8 @@ class extendedListener(aiqlListener):
 
 		if self.dependencyFlag == 1:
 			self.dependencies.append("EventID = " + str(self.eventID))
+
+		self.evt_patt.append(str(self.keyword))
 
 
 
