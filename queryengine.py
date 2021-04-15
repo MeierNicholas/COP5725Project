@@ -56,6 +56,10 @@ class extendedListener(aiqlListener):
 		self.equalsFlag = 0
 		self.temporalFlag = 0
 
+		self.previousWord = ''
+
+		self.intColumns = ['id', 'eventid', 'time', 'duration', 'protocol', 'srcpackets', 'dstpackets']
+
 	def exitAiql(self, ctx):
 
 		self.queries = list() 	# list of generated queries 
@@ -106,7 +110,6 @@ class extendedListener(aiqlListener):
 					twindstr += self.global_constraints[i][1]
 					twindstr += " AND "
 					twindstr += self.global_constraints[i][2]
-					# twindstr += " AND "
 					self.WHERE += twindstr
 
 					if i < len(self.global_constraints)-1:
@@ -114,24 +117,26 @@ class extendedListener(aiqlListener):
 						
 				else: 
 					for word in self.global_constraints[i]:
-						if self.equalsFlag == 1:
+						if self.equalsFlag == 1 and self.global_constraints[i][0] not in self.intColumns:
 							self.WHERE += '\''
 							self.WHERE += word
 							self.WHERE += '\''
-							equalsFlag = 0
+							self.equalsFlag = 0
 							continue
 
 						if word == "=":
 							self.equalsFlag = 1
 
-						print(word)
 						self.WHERE += word + " "
+
 					if i < len(self.global_constraints)-1:
 						self.WHERE += " AND "
 
 			self.sfw = self.SELECT + self.FROM + self.WHERE
 			self.tempWHERE = self.WHERE
 			self.queries.append(self.sfw)
+
+			print("QUERY STRING: ", self.sfw)
 
 
 		for i in range(0, len(self.multievents)):
@@ -550,7 +555,7 @@ recordsList2 = list()
 
 
 def executeQuery(queryString):
-	conn = psycopg2.connect("dbname=postgres user=postgres password=leoeatsbroccoli")
+	conn = psycopg2.connect("dbname=projectdb user=postgres password=leoeatsbroccoli")
 	cur = conn.cursor()
 
 	testlist = list()
