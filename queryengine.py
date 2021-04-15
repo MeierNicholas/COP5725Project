@@ -202,7 +202,7 @@ class extendedListener(aiqlListener):
 			if self.backwardDependency == 1:
 				operator = '>'
 
-			fullQuery = "SELECT " + returnVal + " FROM " 
+			fullQuery = "SELECT * FROM " 
 			for i in range(len(joinSelects)):
 				if i < len(joinSelects)-1:
 					fullQuery += joinSelects[i] + " JOIN " + joinSelects[i+1] + " ON " + nameMap[i] + ".Time" + operator + nameMap[i+1] + ".Time "
@@ -265,19 +265,6 @@ class extendedListener(aiqlListener):
 	def exitEvt_patt(self, ctx):
 		self.multievents.append(self.evt_patt)
 		self.evtpattFlag = 0
-
-	def enterEvt(self, ctx):
-		pass
-
-	def exitEvt(self, ctx):
-		pass
-
-	def enterRel(self, ctx):
-		pass
-
-	def exitRel(self, ctx):
-		pass
-
 
 	def enterAttr_rel(self, ctx):
 		pass
@@ -384,13 +371,6 @@ class extendedListener(aiqlListener):
 	def exitEvt_id(self, ctx):
 		self.returnValue = ctx.getText()
 		pass
-
-	def enterRename_id(self, ctx):
-		pass
-
-	def exitRename_id(self, ctx):
-		pass
-
 
 	def enterDatetime(self, ctx):
 		if self.twindFlag == 1:
@@ -525,6 +505,8 @@ def queryScheduler(queries, flag, tempRel):
 		printResults(finalList, flag)
 		return
 
+	for i in resultSet:
+		print(i)
 	printResults(resultSet, flag)
 
 
