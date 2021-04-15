@@ -62,11 +62,9 @@ class extendedListener(aiqlListener):
 
 		# print(self.firstEvent + " " + "before" + " " + self.secondEvent)
 		# print(self.returnValue)
-
-		self.tempRel[self.firstEvent] = (self.multievents[0][0][2], self.multievents[0][2][2])
-		self.tempRel[self.secondEvent] = (self.multievents[1][0][2], self.multievents[1][2][2])
-
-		print("Relationship Dictonary: ", self.tempRel)
+		if self.temporalFlag == 1:
+			self.tempRel[self.firstEvent] = (self.multievents[0][0][2], self.multievents[0][2][2])
+			self.tempRel[self.secondEvent] = (self.multievents[1][0][2], self.multievents[1][2][2])
 
 		# CONVERT EVERYTHING TO SQL 
 		self.SELECT = "SELECT * " 
@@ -496,37 +494,32 @@ def queryScheduler(queries, flag, tempRel):
 		# change executeQuery function in QE to take in a query and return the results 
 		# M[query] = executeQuery(str(query))					# map M that stores the mapping from the event pattern ID to the set of event ID tuples that its execution results belong to. 
 
-		executeQuery(query, tempRel)
+		executeQuery(query)
 
 		executed.append(query)
 
 	print("Query returned " + str(len(resultSet)) + " unique log events")
 
-
-	listOne = list()
-	listTwo = list()
-	finalList = list()
-	condition = True
-
-
-
-	for i in resultSet:
-		if i[6] == tempRel[list(tempRel.keys())[0]][0] and i[8] == tempRel[list(tempRel.keys())[0]][1]:
-			listOne.append(i)
-		if i[6] == tempRel[list(tempRel.keys())[1]][0] and i[8] == tempRel[list(tempRel.keys())[1]][1]:
-			listTwo.append(i)
+	if len(tempRel) != 0:
+		listOne = list()
+		listTwo = list()
+		finalList = list()
+		condition = True
 
 
-	for i in listOne:
-		for j in listTwo:
-			if i[9] > j[9]:
-				condition = False
-		if condition == True:
-			finalList.append(i)
+		for i in resultSet:
+			if i[6] == tempRel[list(tempRel.keys())[0]][0] and i[8] == tempRel[list(tempRel.keys())[0]][1]:
+				listOne.append(i)
+			if i[6] == tempRel[list(tempRel.keys())[1]][0] and i[8] == tempRel[list(tempRel.keys())[1]][1]:
+				listTwo.append(i)
 
 
-	print("length of original query 1: ", len(listOne))
-	print("list of final query 1: ", len(finalList))
+		for i in listOne:
+			for j in listTwo:
+				if i[9] > j[9]:
+					condition = False
+			if condition == True:
+				finalList.append(i)
 
 
 	return sortedScores
@@ -564,11 +557,6 @@ def executeQuery(queryString):
 	cur.execute(queryString)
 
 	records = cur.fetchall()
-
-	print(tempRel[list(tempRel.keys())[0]][0])
-	print(tempRel[list(tempRel.keys())[0]][1])
-	print(tempRel[list(tempRel.keys())[1]][0])
-	print(tempRel[list(tempRel.keys())[1]][1])
 
 
 	for i in records:
@@ -613,8 +601,7 @@ def main():
 	walker.walk(printer, tree)
 
 	print(printer.queries)
-	print("FIRST EVENT: ",printer.firstEvent)
-	print("SECOND EVENT: ",printer.secondEvent)
+
 	#print("WHAT: ",printer.tempRel)
 
 	# Schedule & Run generated queries 
