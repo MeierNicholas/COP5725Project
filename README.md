@@ -79,8 +79,6 @@ An example of this query format is as follows: <br/><br/>
 	backward: proc p1 -> [execute] file wmiprvse.exe <- [end] proc p2 <- [priv] proc p3 ret p3
 </em>
 
-For more information on the structure and function of these queries, please read our paper at [An Implementation of a Query System for Investigating Complex Attack Behaviors for Enterprise Security](www.google.com)
-
 ## Running the System (assuming all dependencies are met and the database has been initialized with the proper relations)
 1. Run 'python3 queryengine.py'
 2. Enter an anomaly, multievent, or dependency query. The system currently expects queries to be properly formatted per the examples above.
