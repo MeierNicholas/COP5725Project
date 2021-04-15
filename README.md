@@ -54,8 +54,8 @@ The second relation, netlogs, contains our sample network event logs. The screen
 These allow the user to query for network anomalies within given time and event constraints.
 An example of this query format is as follows:
 <em>
-	anomaly protocol=17
-	(from 118780 to 118785)
+	anomaly protocol=17 <br/><br/>
+	(from 118780 to 118785) <br/><br/>
 	dstpackets>10000
 </em>
 
@@ -63,11 +63,11 @@ An example of this query format is as follows:
 These allow the user to query for multiple events, specify a temporal relationship between the events, and choose which event to return based on the relationship.
 An example of this query format is as follows:
 <em>
-	domainname=Domain001
-	(from 0 to 6000000)
-	proc svchost execute proc dllhost.exe as evt1
-	proc svchost execute proc wmiprvse.exe as evt2
-	with evt1 before evt2
+	domainname=Domain001 <br/><br/>
+ 	(from 0 to 6000000) <br/><br/>
+	proc svchost execute proc dllhost.exe as evt1 <br/><br/>
+	proc svchost execute proc wmiprvse.exe as evt2 <br/><br/>
+	with evt1 before evt2 <br/><br/>
 	ret evt1
 </em>
 
@@ -75,7 +75,7 @@ An example of this query format is as follows:
 These allow the user to query for event paths, where an order is specified using the keywords 'forward' and 'backward'.
 An example of this query format is as follows:
 <em>
-	(from 18723 to 18900)
+	(from 18723 to 18900) <br/><br/>
 	backward: proc p1 -> [execute] file wmiprvse.exe <- [end] proc p2 <- [priv] proc p3 ret p3
 </em>
 
