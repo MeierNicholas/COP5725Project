@@ -52,7 +52,7 @@ The second relation, netlogs, contains our sample network event logs. The screen
 
 ### Anomaly Queries
 These allow the user to query for network anomalies within given time and event constraints.
-An example of this query format is as follows:
+An example of this query format is as follows: <br/><br/>
 <em>
 	anomaly protocol=17 <br/><br/>
 	(from 118780 to 118785) <br/><br/>
