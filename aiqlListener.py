@@ -89,15 +89,6 @@ class aiqlListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by aiqlParser#evt.
-    def enterEvt(self, ctx:aiqlParser.EvtContext):
-        pass
-
-    # Exit a parse tree produced by aiqlParser#evt.
-    def exitEvt(self, ctx:aiqlParser.EvtContext):
-        pass
-
-
     # Enter a parse tree produced by aiqlParser#rel.
     def enterRel(self, ctx:aiqlParser.RelContext):
         pass
@@ -212,15 +203,6 @@ class aiqlListener(ParseTreeListener):
 
     # Exit a parse tree produced by aiqlParser#evt_id.
     def exitEvt_id(self, ctx:aiqlParser.Evt_idContext):
-        pass
-
-
-    # Enter a parse tree produced by aiqlParser#rename_id.
-    def enterRename_id(self, ctx:aiqlParser.Rename_idContext):
-        pass
-
-    # Exit a parse tree produced by aiqlParser#rename_id.
-    def exitRename_id(self, ctx:aiqlParser.Rename_idContext):
         pass
 
 
