@@ -137,6 +137,16 @@ public interface aiqlListener extends ParseTreeListener {
 	 */
 	void exitEvt_rel(aiqlParser.Evt_relContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link aiqlParser#evt}.
+	 * @param ctx the parse tree
+	 */
+	void enterEvt(aiqlParser.EvtContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link aiqlParser#evt}.
+	 * @param ctx the parse tree
+	 */
+	void exitEvt(aiqlParser.EvtContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link aiqlParser#entity}.
 	 * @param ctx the parse tree
 	 */

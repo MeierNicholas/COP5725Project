@@ -17,7 +17,7 @@ cstr 			: attr_cstr;
 attr_cstr		: attr op val; 
 
 // Events & event attributes 
-evt_patt 		: entity op_exp entity ('(' twind ')')?;
+evt_patt 		: entity op_exp entity evt? ('(' twind ')')?;
 
 // Relationships 
 rel 			: attr_rel | temp_rel;
@@ -25,6 +25,7 @@ attr_rel		: evt_id'.'attr op evt_id'.'attr
 				| evt_id op evt_id;
 temp_rel		: evt_id 'before' evt_id;
 evt_rel			: 'with' rel (',' rel)*;
+evt 			: 'as' evt_id ('[' attr_cstr ']')?;
 
 // Network or host logs 
 entity			: entity_type evt_id? ('[' attr_cstr ']')?;		

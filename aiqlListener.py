@@ -125,6 +125,15 @@ class aiqlListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by aiqlParser#evt.
+    def enterEvt(self, ctx:aiqlParser.EvtContext):
+        pass
+
+    # Exit a parse tree produced by aiqlParser#evt.
+    def exitEvt(self, ctx:aiqlParser.EvtContext):
+        pass
+
+
     # Enter a parse tree produced by aiqlParser#entity.
     def enterEntity(self, ctx:aiqlParser.EntityContext):
         pass
