@@ -47,3 +47,43 @@ This project requires several Python libraries in order to function properly. Th
 ## PostgreSQL Database
 - We have one single database, projectdb, which contains two relations. The first relation, hostlogs, contains our host event logs. The screenshot below shows the columns and their respective types in this relation. <br/><br/> ![hostlogs relation](./Assets/hostlogsscreenshot.png)   
 The second relation, netlogs, contains our sample network event logs. The screenshot below shows the columns and their repsective types in this relation. <br/><br/> ![nelogs relation](./Assets/netlogsscreenshot.png)
+
+## Accepted Query Types
+
+### Anomaly Queries
+These allow the user to query for network anomalies within given time and event constraints.
+An example of this query format is as follows:
+<em>
+	anomaly protocol=17
+	(from 118780 to 118785)
+	dstpackets>10000
+</em>
+
+### Multievent Queries
+These allow the user to query for multiple events, specify a temporal relationship between the events, and choose which event to return based on the relationship.
+An example of this query format is as follows:
+<em>
+	domainname=Domain001
+	(from 0 to 6000000)
+	proc svchost execute proc dllhost.exe as evt1
+	proc svchost execute proc wmiprvse.exe as evt2
+	with evt1 before evt2
+	ret evt1
+</em>
+
+### Dependency Queries
+These allow the user to query for event paths, where an order is specified using the keywords 'forward' and 'backward'.
+An example of this query format is as follows:
+<em>
+	(from 18723 to 18900)
+	backward: proc p1 -> [execute] file wmiprvse.exe <- [end] proc p2 <- [priv] proc p3 ret p3
+</em>
+
+For more information on the structure and function of these queries, please read our paper at [An Implementation of a Query System for Investigating Complex Attack Behaviors for Enterprise Security](www.google.com)
+
+## Running the System (assuming all dependencies are met and the database has been initialized with the proper relations)
+1. Run 'python3 queryengine.py'
+2. Enter an anomaly, multievent, or dependency query. The system currently expects queries to be properly formatted per the examples above.
+3. The results of the query will then be printed to the screen.
+
+<em> Note: If you are interested in seeing the parse tree produced by our grammar given a specific query, please reference the [getting started with Antlr4](https://github.com/antlr/antlr4/blob/master/doc/getting-started.md) documentation. </em>
