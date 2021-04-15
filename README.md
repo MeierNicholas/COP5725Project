@@ -61,7 +61,7 @@ An example of this query format is as follows: <br/><br/>
 
 ### Multievent Queries
 These allow the user to query for multiple events, specify a temporal relationship between the events, and choose which event to return based on the relationship.
-An example of this query format is as follows:
+An example of this query format is as follows: <br/><br/>
 <em>
 	domainname=Domain001 <br/><br/>
  	(from 0 to 6000000) <br/><br/>
@@ -73,7 +73,7 @@ An example of this query format is as follows:
 
 ### Dependency Queries
 These allow the user to query for event paths, where an order is specified using the keywords 'forward' and 'backward'.
-An example of this query format is as follows:
+An example of this query format is as follows: <br/><br/>
 <em>
 	(from 18723 to 18900) <br/><br/>
 	backward: proc p1 -> [execute] file wmiprvse.exe <- [end] proc p2 <- [priv] proc p3 ret p3
