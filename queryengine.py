@@ -283,7 +283,7 @@ class extendedListener(aiqlListener):
 		pass
 
 	def enterTemp_rel(self, ctx):
-		self.TemporalFlag = 1
+		self.temporalFlag = 1
 		pass
 
 	def exitTemp_rel(self, ctx):
@@ -506,20 +506,23 @@ def queryScheduler(queries, flag, tempRel):
 		finalList = list()
 		condition = True
 
-
 		for i in resultSet:
 			if i[6] == tempRel[list(tempRel.keys())[0]][0] and i[8] == tempRel[list(tempRel.keys())[0]][1]:
 				listOne.append(i)
 			if i[6] == tempRel[list(tempRel.keys())[1]][0] and i[8] == tempRel[list(tempRel.keys())[1]][1]:
 				listTwo.append(i)
 
-
 		for i in listOne:
 			for j in listTwo:
-				if i[9] > j[9]:
+				if int(i[9]) > int(j[9]):
 					condition = False
 			if condition == True:
 				finalList.append(i)
+
+		printResults(finalList, flag)
+		return
+
+	printResults(resultSet, flag)
 
 
 	return sortedScores
@@ -548,7 +551,7 @@ recordsList2 = list()
 
 
 def executeQuery(queryString):
-	conn = psycopg2.connect("dbname=postgres user=postgres password=leoeatsbroccoli")
+	conn = psycopg2.connect("dbname=projectdb user=postgres password=leoeatsbroccoli")
 	cur = conn.cursor()
 
 	testlist = list()
@@ -556,13 +559,10 @@ def executeQuery(queryString):
 	#needs to execute whatever query argument was passed to the function
 	cur.execute(queryString)
 
-	records = cur.fetchall()
-
+	records = cur.fetchall()		
 
 	for i in records:
 		resultSet.add(i)
-
-	#print("TESTLIST: ", testlist)
 
 def printResults(records, flag):
 	x = PrettyTable()
