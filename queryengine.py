@@ -131,9 +131,7 @@ class extendedListener(aiqlListener):
 
 			self.sfw = self.SELECT + self.FROM + self.WHERE
 			self.tempWHERE = self.WHERE
-
-		else:
-			self.sfw = self.SELECT + self.FROM
+			self.queries.append(self.sfw)
 
 
 		for i in range(0, len(self.multievents)):
@@ -150,7 +148,7 @@ class extendedListener(aiqlListener):
 
 			self.queries.append(self.sfw)
 		
-		self.queries.append(self.sfw)
+	
 
 		# Conversion for dependency queries
 		entities = list()
@@ -523,6 +521,7 @@ def queryScheduler(queries, flag, tempRel):
 		return
 
 	printResults(resultSet, flag)
+
 
 
 	return sortedScores
