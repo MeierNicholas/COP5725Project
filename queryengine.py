@@ -21,6 +21,7 @@ class extendedListener(aiqlListener):
 		self.entity = list()
 		self.eventPatterns = list()
 		self.tempRel = dict()
+		self.order = dict() 
 
 		# flags for query types
 		self.anomalyFlag = 0
@@ -129,7 +130,8 @@ class extendedListener(aiqlListener):
 
 			self.sfw = self.SELECT + self.FROM + self.WHERE
 			self.tempWHERE = self.WHERE
-			self.queries.append(self.sfw)
+			if self.dependencyFlag != 1:
+				self.queries.append(self.sfw)
 
 
 		for i in range(0, len(self.multievents)):
@@ -160,7 +162,10 @@ class extendedListener(aiqlListener):
 
 			for edge in edges: 
 				selectfrom = "SELECT * FROM hostlogs "
-				where = "WHERE "
+				if len(self.global_constraints) != 0:
+					where = self.WHERE + " AND "
+				else:
+					where = "WHERE "
 
 				# which way to read
 				if edge[2] != '4688' and edge[2] != '4689':		# not a process operation 
@@ -174,6 +179,27 @@ class extendedListener(aiqlListener):
 				fullQuery = selectfrom + where
 				self.queries.append(fullQuery)
 
+			# pass additional forward/backward key list to sort and join the output in scheduler
+			# sort for proc list
+			self.processes = list()
+			for entity in entities:
+				if entity[0] == 'proc':
+					if entity[1] == self.RES:
+						self.processes.append(entity[1] + '*')
+					else:
+						self.processes.append(entity[1])
+
+			i = (len(self.processes))-1
+			if (self.forwardDependency):
+				for j in range(i):
+					self.order[self.queries[j]] = self.processes[j]
+
+			elif (self.backwardDependency):
+				while i != 0:
+					self.order[self.queries[i]] = self.processes[i]
+					i -= 1
+				self.order[self.queries[0]] = self.processes[0]
+			
 
 	# MULTIEVENT QUERY INSTANCE 
 	def enterMultievent(self, ctx):
@@ -432,12 +458,24 @@ def pruningScore(query):
 M = dict() 
 pruningScores = dict() 
 executed = list()
+
 # main scheduler 
-def queryScheduler(queries, flag, tempRel):	
+def queryScheduler(queries, flag, tempRel, order):	
+	dependencyResults = [None] * len(order)
+
 	for query in queries:
 		# caluclate pruning score 
 		pruningScores[query] = pruningScore(query)
 	sortedScores = dict(sorted(pruningScores.items(), key=lambda item: item[1], reverse=True)) 		# Sort queries based on scores
+
+	executedOrder = list()
+	trueOrder = list()
+
+	if len(order) != 0:
+		for query in sortedScores:
+			executedOrder.append(order[query])
+		for key in order.keys():
+			trueOrder.append(order[key])
 
 	# TO BE INTEGRATED WITH THE QUERY ENGINE CODE 
 	for query in sortedScores:
@@ -445,6 +483,10 @@ def queryScheduler(queries, flag, tempRel):
 		# M[query] = executeQuery(str(query))					# map M that stores the mapping from the event pattern ID to the set of event ID tuples that its execution results belong to. 
 
 		executeQuery(query)
+
+		# Filter result as it's executed
+		if len(order) != 0:
+			dependencyResults[trueOrder.index(order[query])] = resultSet
 
 		executed.append(query)
 
@@ -472,9 +514,21 @@ def queryScheduler(queries, flag, tempRel):
 		printResults(finalList, flag)
 		return
 
+	if len(order) != 0:
+		filteredResult = list()
+		i = len(order)-1
+		while i != 0:
+			if i > 0:
+				for result in dependencyResults[i]:
+					for result2 in dependencyResults[i-1]:
+						if result[9] > result2[9]:
+							if '*' in trueOrder[i]:
+								filteredResult.append(result)
+			i-=1
+		printResults(filteredResult, flag)
+		return
+
 	printResults(resultSet, flag)
-
-
 
 	return sortedScores
 
@@ -556,7 +610,7 @@ def main():
 	#print("WHAT: ",printer.tempRel)
 
 	# Schedule & Run generated queries 
-	queryScheduler(printer.queries, printer.anomalyFlag, printer.tempRel)	
+	queryScheduler(printer.queries, printer.anomalyFlag, printer.tempRel, printer.order)	
 
 	# testQueries = {"SELECT * FROM hostlogs WHERE processname='dllhost.exe';", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792;", "SELECT * FROM hostlogs WHERE processname='dllhost.exe' AND time=5334792 AND processid='0x1110';"}
 	# print("Initial Query Order: ", testQueries)
