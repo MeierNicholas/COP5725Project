@@ -17,8 +17,7 @@ cstr 			: attr_cstr;
 attr_cstr		: attr op val; 
 
 // Events & event attributes 
-evt_patt 		: entity op_exp entity evt? ('(' twind ')')?;
-evt 			: 'as' evt_id ('[' attr_cstr ']')?;
+evt_patt 		: entity op_exp entity ('(' twind ')')?;
 
 // Relationships 
 rel 			: attr_rel | temp_rel;
@@ -39,10 +38,9 @@ op_exp			: keyword
 
 // Return values & filters 
 ret 			: 'ret' 'count'? 'distinct'? res (',' res)*;
-res				: evt_id('.'attr)?
-				| attr
-				| agg_func'(' res ')'
-				| 'as' rename_id;
+res				: attr
+				| evt_id
+				| agg_func'(' res ')';
 
 // Multievent query 
 m_query 		: evt_patt+ evt_rel? ret;
@@ -54,7 +52,6 @@ op_edge			: ('->' | '<-') '[' op_exp ']';
 
 // Variables
 evt_id 			: (STRING (INT)?) | filename; 
-rename_id		: STRING;
 datetime		: INT; 		
 attr 			: STRING; 			 
 
@@ -70,4 +67,4 @@ val				: STRING(INT)?
 				| 'null'; 
 op 				: '<' | '>' | '=' | '<=' | '=>'; 
 agg_func 		: 'sum' | 'avg'; 
-keyword 		: 'execute' | 'fail' | 'priv' | 'explicit' | 'shutdown' | 'connect'; 
+keyword 		: 'execute' | 'fail' | 'priv' | 'explicit' | 'shutdown' | 'connect' | 'end'; 

@@ -94,13 +94,8 @@ class extendedListener(aiqlListener):
 			self.FROM += "hostlogs"
 
 		print('\n\n')
-		#print("MULTIEVENTS", self.multievents[len(self.multievents)-1])
-		print("Multievents: ", self.multievents)
-
-		#self.multievents = self.multievents[len(self.multievents)-1]
 
 		# Add global constraints to WHERE clause 
-		print("GLOBAL CONSTRAINTS:", self.global_constraints)
 		if len(self.global_constraints) != 0:
 			
 			size = range(len(self.global_constraints))
@@ -136,8 +131,6 @@ class extendedListener(aiqlListener):
 			self.tempWHERE = self.WHERE
 			self.queries.append(self.sfw)
 
-			print("QUERY STRING: ", self.sfw)
-
 
 		for i in range(0, len(self.multievents)):
 			if self.multievents[i][1] == "execute":
@@ -158,17 +151,14 @@ class extendedListener(aiqlListener):
 		# Conversion for dependency queries
 		entities = list()
 		edges = list()
-		for i in range(len(self.dependencies)-2):
+		for i in range(len(self.dependencies)):
 			if self.dependencies[i][0] == 'ENTITY':
-				entities.append([self.dependencies[i][1], self.dependencies[i][2]])
-				edges.append([self.dependencies[i][2], self.dependencies[i+1][0], self.dependencies[i+1][1], self.dependencies[i+2][2]])
+				entities.append( self.dependencies[i][2])
+				if i < len(self.dependencies)-1:
+					edges.append([self.dependencies[i][2], self.dependencies[i+1][0], self.dependencies[i+1][1], self.dependencies[i+2][2]])
 
-		# DEFINE RETURN VALUE
-		
-		# use edges to associate eventIDs with processes 
-		# JOIN on time > or < based on forward and backward keyword
-		# RETURN the process where it satisfies those values 
-
+		print(self.dependencies)
+		print(entities)
 		print(edges)
 
 		if self.dependencyFlag == 1:
@@ -419,6 +409,8 @@ class extendedListener(aiqlListener):
 			self.eventID = 4625
 		elif (str(self.keyword)) == 'execute': 
 			self.eventID = 4688
+		elif (str(self.keyword)) == 'end':
+			self.eventID = 4689
 		elif (str(self.keyword)) == 'explicit': 
 			self.eventID = 4648
 		elif (str(self.keyword)) == 'priv': 
@@ -505,8 +497,6 @@ def queryScheduler(queries, flag, tempRel):
 		printResults(finalList, flag)
 		return
 
-	for i in resultSet:
-		print(i)
 	printResults(resultSet, flag)
 
 

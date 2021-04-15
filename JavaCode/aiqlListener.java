@@ -97,16 +97,6 @@ public interface aiqlListener extends ParseTreeListener {
 	 */
 	void exitEvt_patt(aiqlParser.Evt_pattContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link aiqlParser#evt}.
-	 * @param ctx the parse tree
-	 */
-	void enterEvt(aiqlParser.EvtContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link aiqlParser#evt}.
-	 * @param ctx the parse tree
-	 */
-	void exitEvt(aiqlParser.EvtContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link aiqlParser#rel}.
 	 * @param ctx the parse tree
 	 */
@@ -236,16 +226,6 @@ public interface aiqlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitEvt_id(aiqlParser.Evt_idContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link aiqlParser#rename_id}.
-	 * @param ctx the parse tree
-	 */
-	void enterRename_id(aiqlParser.Rename_idContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link aiqlParser#rename_id}.
-	 * @param ctx the parse tree
-	 */
-	void exitRename_id(aiqlParser.Rename_idContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link aiqlParser#datetime}.
 	 * @param ctx the parse tree

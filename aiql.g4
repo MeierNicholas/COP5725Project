@@ -39,6 +39,7 @@ op_exp			: keyword
 // Return values & filters 
 ret 			: 'ret' 'count'? 'distinct'? res (',' res)*;
 res				: attr
+				| evt_id
 				| agg_func'(' res ')';
 
 // Multievent query 
@@ -66,4 +67,4 @@ val				: STRING(INT)?
 				| 'null'; 
 op 				: '<' | '>' | '=' | '<=' | '=>'; 
 agg_func 		: 'sum' | 'avg'; 
-keyword 		: 'execute' | 'fail' | 'priv' | 'explicit' | 'shutdown' | 'connect'; 
+keyword 		: 'execute' | 'fail' | 'priv' | 'explicit' | 'shutdown' | 'connect' | 'end'; 
