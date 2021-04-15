@@ -63,7 +63,7 @@ attr 			: STRING;
 INT	: '0' | '0'..'9'+;
 STRING			: LETTER+;
 LETTER			: 'a'..'z' | 'A'..'Z';
-filename 		: STRING ('.' STRING)?;
+filename 		: STRING (INT)? ('.' STRING)?;
 WS : [ \t\r\n]+ -> skip ;
 val				: STRING(INT)?
 				| INT

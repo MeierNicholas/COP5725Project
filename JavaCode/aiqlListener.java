@@ -197,26 +197,6 @@ public interface aiqlListener extends ParseTreeListener {
 	 */
 	void exitRes(aiqlParser.ResContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link aiqlParser#group_by}.
-	 * @param ctx the parse tree
-	 */
-	void enterGroup_by(aiqlParser.Group_byContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link aiqlParser#group_by}.
-	 * @param ctx the parse tree
-	 */
-	void exitGroup_by(aiqlParser.Group_byContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link aiqlParser#ret_filter}.
-	 * @param ctx the parse tree
-	 */
-	void enterRet_filter(aiqlParser.Ret_filterContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link aiqlParser#ret_filter}.
-	 * @param ctx the parse tree
-	 */
-	void exitRet_filter(aiqlParser.Ret_filterContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link aiqlParser#m_query}.
 	 * @param ctx the parse tree
 	 */

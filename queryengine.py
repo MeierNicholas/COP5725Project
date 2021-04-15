@@ -182,10 +182,10 @@ class extendedListener(aiqlListener):
 			# use edges to associate eventIDs with processes 
 			for edge in edges:
 				if edge[1] == '->':
-					temp = "(SELECT * FROM hostlogs WHERE eventID = " + edge[2] + ") AS " + edge[0]
+					temp = "(SELECT * FROM hostlogs WHERE eventID = " + edge[2] + ") " + edge[0]
 					nameMap.append(edge[0])
 				elif edge[1] == '<-':
-					temp = temp = "(SELECT * FROM hostlogs WHERE eventID = " + edge[2] + ") AS " + edge[3]
+					temp = temp = "(SELECT * FROM hostlogs WHERE eventID = " + edge[2] + ") " + edge[3]
 					nameMap.append(edge[3])
 				joinSelects.append(temp)
 
@@ -550,7 +550,7 @@ recordsList2 = list()
 
 
 def executeQuery(queryString):
-	conn = psycopg2.connect("dbname=projectdb user=postgres password=leoeatsbroccoli")
+	conn = psycopg2.connect("dbname=postgres user=postgres password=leoeatsbroccoli")
 	cur = conn.cursor()
 
 	testlist = list()
